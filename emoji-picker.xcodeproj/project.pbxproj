@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8A1AA2C52EB7A3AF000E78C1 /* emoji.json in Resources */ = {isa = PBXBuildFile; fileRef = 8A1AA2C42EB7A3AF000E78C1 /* emoji.json */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXBuildRule section */
 		8AB7E2882EB66AB500AAE470 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
@@ -41,6 +45,7 @@
 		8A0C42D32EB5122400943392 /* emoji-picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "emoji-picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A0C42E22EB5122700943392 /* emoji-pickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "emoji-pickerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A0C42EC2EB5122700943392 /* emoji-pickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "emoji-pickerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A1AA2C42EB7A3AF000E78C1 /* emoji.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = emoji.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -93,6 +98,7 @@
 				8A0C42E52EB5122700943392 /* emoji-pickerTests */,
 				8A0C42EF2EB5122700943392 /* emoji-pickerUITests */,
 				8A0C42D42EB5122400943392 /* Products */,
+				8A1AA2C42EB7A3AF000E78C1 /* emoji.json */,
 			);
 			sourceTree = "<group>";
 		};
@@ -227,6 +233,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A1AA2C52EB7A3AF000E78C1 /* emoji.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
