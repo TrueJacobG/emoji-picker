@@ -3,6 +3,8 @@ import CoreGraphics
 
 struct WindowContentView: View {
     
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var searchText = ""
     
     enum Field: Hashable {
@@ -40,6 +42,7 @@ struct WindowContentView: View {
                 TextField("Search emoji by name", text: $searchText, onCommit: {
                     copyFirstEmoji()
                 })
+                .focused($focusedField, equals: .search)
                 .textFieldStyle(PlainTextFieldStyle())
                 .font(.title3)
                 .padding(.vertical, 8)
@@ -70,21 +73,37 @@ struct WindowContentView: View {
             }
         }
         .frame(width: 480, height: 400)
+        .onAppear {
+            searchText = ""
+            
+            DispatchQueue.main.async {
+                self.focusedField = .search
+            }
+        }
+        
+        Button("") {
+            dismiss()
+        }
+        .keyboardShortcut(.cancelAction)
+        .hidden()
     }
     
     private func copyFirstEmoji() {
-        guard let firstEmoji = filteredEmojis.first else {
-            return
-        }
+        var emojiToPaste: String?
         
-        copyToClipboard(firstEmoji.emoji)
+        if let firstEmoji = filteredEmojis.first {
+            emojiToPaste = firstEmoji.emoji
+            copyToClipboard(firstEmoji.emoji)
+        }
         
         searchText = ""
         
         NSApplication.shared.hide(nil)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            paste()
+        if emojiToPaste != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                paste()
+            }
         }
     }
     
@@ -97,24 +116,28 @@ struct WindowContentView: View {
     }
     
     private func paste() {
-        // Simulates a "Cmd + V" keystroke
-        
         let source = CGEventSource(stateID: .hidSystemState)
         
-        // Keycode for "v" is 9
-        let keyV = CGKeyCode(9)
+        let deleteKey = 51
+        let keyDelete = CGKeyCode(deleteKey)
         
-        // Press Command + V
-        let keyDown = CGEvent(keyboardEventSource: source, virtualKey: keyV, keyDown: true)
-        keyDown?.flags = .maskCommand // Add Command flag
+        let deleteDown = CGEvent(keyboardEventSource: source, virtualKey: keyDelete, keyDown: true)
+        let deleteUp = CGEvent(keyboardEventSource: source, virtualKey: keyDelete, keyDown: false)
         
-        // Release Command + V
-        let keyUp = CGEvent(keyboardEventSource: source, virtualKey: keyV, keyDown: false)
-        keyUp?.flags = .maskCommand // Add Command flag
+        let cmdPlusV = 9
+        let keyV = CGKeyCode(cmdPlusV)
         
-        // Post the events
-        keyDown?.post(tap: .cghidEventTap)
-        keyUp?.post(tap: .cghidEventTap)
+        let pasteDown = CGEvent(keyboardEventSource: source, virtualKey: keyV, keyDown: true)
+        pasteDown?.flags = .maskCommand
+        
+        let pasteUp = CGEvent(keyboardEventSource: source, virtualKey: keyV, keyDown: false)
+        pasteUp?.flags = .maskCommand
+        
+        deleteDown?.post(tap: .cghidEventTap)
+        deleteUp?.post(tap: .cghidEventTap)
+        
+        pasteDown?.post(tap: .cghidEventTap)
+        pasteUp?.post(tap: .cghidEventTap)
     }
 }
 
