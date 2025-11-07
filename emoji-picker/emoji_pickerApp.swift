@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         popover.contentSize = NSSize(width: 300, height: 200)
         popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: ContentView())
+        popover.contentViewController = NSHostingController(rootView: TopBarView())
         
         checkAccessibilityPermissions()
         
@@ -96,7 +96,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 )
                 window.center()
                 window.title = "Hotkey Triggered!"
-                window.contentView = NSHostingView(rootView: WindowContentView())
+                window.contentView = NSHostingView(rootView: EmojiPickerView())
                 window.isReleasedWhenClosed = false
                 window.level = .floating
                 self.window = window

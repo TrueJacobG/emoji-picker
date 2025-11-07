@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreGraphics
 
-struct WindowContentView: View {
+struct EmojiPickerView: View {
     
     @Environment(\.dismiss) private var dismiss
     
@@ -107,14 +107,6 @@ struct WindowContentView: View {
         }
     }
     
-    // TODO
-    // code duplication
-    private func copyToClipboard(_ text: String) {
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(text, forType: .string)
-    }
-    
     private func paste() {
         let source = CGEventSource(stateID: .hidSystemState)
         
@@ -138,11 +130,5 @@ struct WindowContentView: View {
         
         pasteDown?.post(tap: .cghidEventTap)
         pasteUp?.post(tap: .cghidEventTap)
-    }
-}
-
-struct EmojiListView_Previews: PreviewProvider {
-    static var previews: some View {
-        WindowContentView()
     }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct KeyCapView: View {
+struct ActivationKeyIcon: View {
     let text: String
     
     var body: some View {

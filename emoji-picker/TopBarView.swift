@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ContentView: View {
+struct TopBarView: View {
     @State private var hasAccessibility = AXIsProcessTrusted()
     
     var body: some View {
@@ -18,7 +18,7 @@ struct ContentView: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
-                KeyCapView(text: "§")
+                ActivationKeyIcon(text: "§")
             }
             
             HStack(spacing: 6) {
