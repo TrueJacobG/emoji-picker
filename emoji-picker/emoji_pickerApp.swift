@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        button.title = "⭐️"
+        button.title = "🫳"
         button.action = #selector(togglePopover)
         button.target = self
         

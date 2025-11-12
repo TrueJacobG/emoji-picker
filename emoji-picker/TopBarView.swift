@@ -39,6 +39,14 @@ struct TopBarView: View {
                 .controlSize(.small)
             }
             
+            // statistics
+            Button("View Statistics") {
+                openStatisticsWindow()
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            
+            // quit
             Button("Quit") {
                 NSApplication.shared.terminate(nil)
             }
@@ -57,5 +65,17 @@ struct TopBarView: View {
     func openAccessibilitySettings() {
         let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
         NSWorkspace.shared.open(url)
+    }
+    
+    private func openStatisticsWindow() {
+        let statisticsView = EmojiStatisticsView()
+        let hostingController = NSHostingController(rootView: statisticsView)
+        
+        let window = NSWindow(contentViewController: hostingController)
+        window.title = "Emoji Statistics"
+        window.styleMask = [.titled, .closable, .resizable]
+        window.setContentSize(NSSize(width: 600, height: 500))
+        window.center()
+        window.makeKeyAndOrderFront(nil)
     }
 }
