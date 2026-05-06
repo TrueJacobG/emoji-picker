@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8A1AA2C52EB7A3AF000E78C1 /* emoji.json in Resources */ = {isa = PBXBuildFile; fileRef = 8A1AA2C42EB7A3AF000E78C1 /* emoji.json */; };
 		8A8E478A2EBD0E77003A0851 /* emoji2.json in Resources */ = {isa = PBXBuildFile; fileRef = 8A8E47892EBD0E77003A0851 /* emoji2.json */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +45,6 @@
 		8A0C42D32EB5122400943392 /* emoji-picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "emoji-picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A0C42E22EB5122700943392 /* emoji-pickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "emoji-pickerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A0C42EC2EB5122700943392 /* emoji-pickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "emoji-pickerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8A1AA2C42EB7A3AF000E78C1 /* emoji.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = emoji.json; sourceTree = "<group>"; };
 		8A8E47892EBD0E77003A0851 /* emoji2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = emoji2.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,7 +98,6 @@
 				8A0C42E52EB5122700943392 /* emoji-pickerTests */,
 				8A0C42EF2EB5122700943392 /* emoji-pickerUITests */,
 				8A0C42D42EB5122400943392 /* Products */,
-				8A1AA2C42EB7A3AF000E78C1 /* emoji.json */,
 				8A8E47892EBD0E77003A0851 /* emoji2.json */,
 			);
 			sourceTree = "<group>";
@@ -237,7 +234,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A8E478A2EBD0E77003A0851 /* emoji2.json in Resources */,
-				8A1AA2C52EB7A3AF000E78C1 /* emoji.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,7 +425,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 6L4Z9R3PZR;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -463,7 +459,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 6L4Z9R3PZR;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;

@@ -1,134 +1,111 @@
 import SwiftUI
-import CoreGraphics
 
 struct EmojiPickerView: View {
-    
-    @Environment(\.dismiss) private var dismiss
-    
-    @State private var searchText = ""
-    
-    enum Field: Hashable {
-        case search
-    }
-    
-    @FocusState private var focusedField: Field?
-    
-    private let allEmojis: [Emoji] = EmojiProvider.loadEmojis(from: "emoji2")
-    
-    var filteredEmojis: [Emoji] {
-        if searchText.isEmpty {
-            return allEmojis
-        } else {
-            return allEmojis.filter { emoji in
-                emoji.name.contains { nameString in
-                    nameString.localizedCaseInsensitiveContains(searchText)
-                }
-            }
-        }
-    }
-    
-    private let columns: [GridItem] = [
-        GridItem(.adaptive(minimum: 60))
-    ]
-    
+    @ObservedObject var viewModel: EmojiPickerViewModel
+
+    @FocusState private var isSearchFocused: Bool
+
     var body: some View {
         VStack(spacing: 0) {
-            // search
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.secondary)
-                    .padding(.leading, 8)
-                
-                TextField("Search emoji by name", text: $searchText, onCommit: {
-                    copyFirstEmoji()
-                })
-                .focused($focusedField, equals: .search)
-                .textFieldStyle(PlainTextFieldStyle())
-                .font(.title3)
-                .padding(.vertical, 8)
-                
-                if !searchText.isEmpty {
-                    Button(action: {
-                        searchText = ""
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.secondary)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.trailing, 8)
-                }
-            }
-            .background(.ultraThickMaterial)
-            
+            searchBar
+
             Divider()
-            
-            // emojis
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(filteredEmojis, id: \.self) { emoji in
-                        EmojiCell(emoji: emoji)
+
+            if viewModel.results.isEmpty {
+                ContentUnavailableView(
+                    "No matching emoji",
+                    systemImage: "magnifyingglass",
+                    description: Text("Try a shorter or broader search.")
+                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack(spacing: 8) {
+                            ForEach(Array(viewModel.results.enumerated()), id: \.element.id) { index, result in
+                                EmojiResultRowView(
+                                    result: result,
+                                    isSelected: viewModel.selectedIndex == index,
+                                    action: {
+                                        viewModel.insert(result)
+                                    }
+                                )
+                                .id(result.id)
+                            }
+                        }
+                        .padding(12)
+                    }
+                    .onChange(of: viewModel.selectedResult?.id) { _, selectedID in
+                        guard let selectedID else {
+                            return
+                        }
+
+                        withAnimation(.easeInOut(duration: 0.12)) {
+                            proxy.scrollTo(selectedID, anchor: .center)
+                        }
                     }
                 }
-                .padding()
             }
         }
-        .frame(width: 480, height: 400)
+        .frame(width: 460, height: 520)
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(nsColor: .windowBackgroundColor),
+                    Color(nsColor: .controlBackgroundColor)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
         .onAppear {
-            searchText = ""
-            
-            DispatchQueue.main.async {
-                self.focusedField = .search
-            }
+            focusSearchField()
         }
-        
-        Button("") {
-            dismiss()
-        }
-        .keyboardShortcut(.cancelAction)
-        .hidden()
-    }
-    
-    private func copyFirstEmoji() {
-        var emojiToPaste: String?
-        
-        if let firstEmoji = filteredEmojis.first {
-            emojiToPaste = firstEmoji.emoji
-            copyToClipboard(firstEmoji.emoji)
-        }
-        
-        searchText = ""
-        
-        NSApplication.shared.hide(nil)
-        
-        if emojiToPaste != nil {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                paste()
-            }
+        .onChange(of: viewModel.presentationID) { _, _ in
+            focusSearchField()
         }
     }
-    
-    private func paste() {
-        let source = CGEventSource(stateID: .hidSystemState)
-        
-        let deleteKey = 51
-        let keyDelete = CGKeyCode(deleteKey)
-        
-        let deleteDown = CGEvent(keyboardEventSource: source, virtualKey: keyDelete, keyDown: true)
-        let deleteUp = CGEvent(keyboardEventSource: source, virtualKey: keyDelete, keyDown: false)
-        
-        let cmdPlusV = 9
-        let keyV = CGKeyCode(cmdPlusV)
-        
-        let pasteDown = CGEvent(keyboardEventSource: source, virtualKey: keyV, keyDown: true)
-        pasteDown?.flags = .maskCommand
-        
-        let pasteUp = CGEvent(keyboardEventSource: source, virtualKey: keyV, keyDown: false)
-        pasteUp?.flags = .maskCommand
-        
-        deleteDown?.post(tap: .cghidEventTap)
-        deleteUp?.post(tap: .cghidEventTap)
-        
-        pasteDown?.post(tap: .cghidEventTap)
-        pasteUp?.post(tap: .cghidEventTap)
+
+    private var searchBar: some View {
+        VStack(spacing: 10) {
+            HStack(spacing: 10) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(.secondary)
+
+                TextField("Search emoji by name", text: $viewModel.searchText)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 19, weight: .medium))
+                    .focused($isSearchFocused)
+                    .onSubmit {
+                        viewModel.insertSelected()
+                    }
+
+                if !viewModel.searchText.isEmpty {
+                    Button {
+                        viewModel.searchText = ""
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
+            HStack {
+                Text("Enter inserts the highlighted emoji")
+                Spacer()
+                Text("↑ ↓ moves selection")
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+        .padding(14)
+        .background(.ultraThinMaterial)
+    }
+
+    private func focusSearchField() {
+        DispatchQueue.main.async {
+            isSearchFocused = true
+        }
     }
 }

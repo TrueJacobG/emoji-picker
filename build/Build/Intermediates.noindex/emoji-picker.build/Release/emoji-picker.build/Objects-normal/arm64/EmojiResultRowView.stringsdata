@@ -1,0 +1,16 @@
+{
+  "source": "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiResultRowView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 29
+        }
+      }
+    ]
+  },
+  "version": 1
+}

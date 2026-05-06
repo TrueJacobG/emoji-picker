@@ -41,8 +41,9 @@ struct EmojiCell: View {
                     .zIndex(1)
             }
         }.onTapGesture {
-            copyToClipboard(emoji.emoji)
-            
+            writeStringToPasteboard(emoji.emoji)
+            EmojiUsageTracker.shared.incrementUsage(for: emoji.emoji)
+
             withAnimation {
                 showCopiedMessage = true
             }

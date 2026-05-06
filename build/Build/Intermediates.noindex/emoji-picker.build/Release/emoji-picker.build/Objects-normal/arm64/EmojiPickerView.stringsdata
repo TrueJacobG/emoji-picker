@@ -1,0 +1,48 @@
+{
+  "source": "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Try a shorter or broader search.",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 18
+        }
+      },
+      {
+        "comment": "",
+        "key": "No matching emoji",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 16
+        }
+      },
+      {
+        "comment": "",
+        "key": "Search emoji by name",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 75
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter inserts the highlighted emoji",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 95
+        }
+      },
+      {
+        "comment": "",
+        "key": "↑ ↓ moves selection",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 97
+        }
+      }
+    ]
+  },
+  "version": 1
+}

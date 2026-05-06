@@ -1,10 +1,9 @@
 import SwiftUI
-import Carbon
 
 @main
 struct emoji_pickerApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     var body: some Scene {
         Settings {
             EmptyView()
@@ -12,108 +11,123 @@ struct emoji_pickerApp: App {
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-    var statusItem: NSStatusItem?
-    var popover = NSPopover()
-    var window: NSWindow?
-    var eventMonitor: Any?
-    var localEventMonitor: Any?
-    
+@MainActor
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    private let appState = AppState()
+    private let popover = NSPopover()
+    private let statisticsController = StatisticsWindowController()
+
+    private lazy var pickerCoordinator = PickerCoordinator(
+        searchService: EmojiSearchService(),
+        insertionService: EmojiInsertionService()
+    )
+
+    private lazy var hotkeyService = HotkeyService(
+        onHotkey: { [weak self] in
+            self?.requestPickerPresentation()
+        },
+        onAvailabilityChanged: { [weak self] isAvailable in
+            self?.appState.setHotkeyCaptureAvailable(isAvailable)
+        }
+    )
+
+    private var statusItem: NSStatusItem?
+
     func applicationDidFinishLaunching(_ notification: Notification) {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        
-        guard let button = statusItem?.button else {
-            print("Failed to create status bar button")
+        configureStatusItem()
+        configurePopover()
+
+        appState.attach(hotkeyService: hotkeyService)
+        appState.applyLaunchAtLoginPreference()
+        appState.refreshAll()
+        appState.requestInitialPermissions()
+
+        hotkeyService.start()
+        appState.refreshAll()
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        hotkeyService.stop()
+    }
+
+    private func configureStatusItem() {
+        let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+
+        guard let button = statusItem.button else {
             return
         }
-        
-        button.title = "🫳"
+
+        button.image = NSImage(systemSymbolName: "face.smiling", accessibilityDescription: "Emoji Picker")
         button.action = #selector(togglePopover)
         button.target = self
-        
-        print("Status item created successfully")
-        
-        popover.contentSize = NSSize(width: 300, height: 200)
+
+        self.statusItem = statusItem
+    }
+
+    private func configurePopover() {
+        popover.contentSize = NSSize(width: 340, height: 320)
         popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: TopBarView())
-        
-        checkAccessibilityPermissions()
-        
-        setupKeyboardMonitoring()
+        popover.animates = true
+        popover.contentViewController = NSHostingController(
+            rootView: TopBarView(
+                appState: appState,
+                openPicker: { [weak self] in
+                    self?.requestPickerPresentation()
+                },
+                showStatistics: { [weak self] in
+                    self?.statisticsController.showWindow()
+                }
+            )
+        )
     }
-    
-    func checkAccessibilityPermissions() {
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: true]
-        let accessEnabled = AXIsProcessTrustedWithOptions(options)
-        
-        if !accessEnabled {
-            print("⚠️ Accessibility permissions not granted. Please grant permissions in System Settings > Privacy & Security > Accessibility")
+
+    @objc private func togglePopover() {
+        guard let button = statusItem?.button else {
+            return
+        }
+
+        if popover.isShown {
+            popover.performClose(nil)
         } else {
-            print("✅ Accessibility permissions granted!")
+            appState.refreshAll()
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
     }
-    
-    func setupKeyboardMonitoring() {
-        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            self?.handleKeyEvent(event)
-        }
-        
-        localEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            self?.handleKeyEvent(event)
-            return event
-        }
-        
-        print("✅ Keyboard monitoring setup complete")
-        print("📝 Listening for: § key (keyCode 10)")
-    }
-    
-    func handleKeyEvent(_ event: NSEvent) {
-        // § key == 10
-        if event.keyCode == 10 {
-            print("🎉 § key detected!")
-            showWindow()
+
+    private func requestPickerPresentation() {
+        popover.performClose(nil)
+
+        DispatchQueue.main.async { [weak self] in
+            self?.pickerCoordinator.showPicker()
         }
     }
-    
-    @objc func togglePopover() {
-        if let button = statusItem?.button {
-            if popover.isShown {
-                popover.performClose(nil)
-            } else {
-                popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-            }
-        }
-    }
-    
+}
+
+@MainActor
+final class StatisticsWindowController: NSObject, NSWindowDelegate {
+    private var window: NSWindow?
+
     func showWindow() {
-        DispatchQueue.main.async {
-            if self.window == nil {
-                let window = NSWindow(
-                    contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
-                    styleMask: [.titled, .closable, .resizable],
-                    backing: .buffered,
-                    defer: false
-                )
-                window.center()
-                window.title = "Hotkey Triggered!"
-                window.contentView = NSHostingView(rootView: EmojiPickerView())
-                window.isReleasedWhenClosed = false
-                window.level = .floating
-                self.window = window
-            }
-            
-            self.window?.makeKeyAndOrderFront(nil)
+        if let window {
+            window.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
-            print("✅ Window shown!")
+            return
         }
+
+        let hostingController = NSHostingController(rootView: EmojiStatisticsView())
+        let window = NSWindow(contentViewController: hostingController)
+        window.title = "Emoji Statistics"
+        window.styleMask = [.titled, .closable, .resizable]
+        window.setContentSize(NSSize(width: 600, height: 500))
+        window.center()
+        window.delegate = self
+        window.makeKeyAndOrderFront(nil)
+
+        self.window = window
+        NSApp.activate(ignoringOtherApps: true)
     }
-    
-    func applicationWillTerminate(_ notification: Notification) {
-        if let monitor = eventMonitor {
-            NSEvent.removeMonitor(monitor)
-        }
-        if let monitor = localEventMonitor {
-            NSEvent.removeMonitor(monitor)
-        }
+
+    func windowWillClose(_ notification: Notification) {
+        window = nil
     }
 }

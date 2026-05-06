@@ -1,0 +1,16 @@
+{
+  "source": "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiCell.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Copied!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 35
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,122 +1,120 @@
+import Combine
 import SwiftUI
 
 struct TopBarView: View {
-    @State private var hasAccessibility = AXIsProcessTrusted()
-    
-    static var statisticsWindow: NSWindow?
-    
+    @ObservedObject var appState: AppState
+
+    let openPicker: () -> Void
+    let showStatistics: () -> Void
+
+    private let refreshTimer = Timer.publish(every: 2.0, on: .main, in: .common).autoconnect()
+
     var body: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "star.fill")
-                .font(.system(size: 40))
-                .foregroundColor(.blue)
-            
-            Text("Menu Bar App")
-                .font(.title2)
-                .fontWeight(.semibold)
-            
-            VStack(spacing: 8) {
-                Text("Press this key:")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                
-                ActivationKeyIcon(text: "§")
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Emoji Picker")
+                    .font(.title2.weight(.semibold))
+
+                Text("Press `§` from any app to open the picker.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
-            
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(hasAccessibility ? Color.green : Color.red)
-                    .frame(width: 8, height: 8)
-                
-                Text(hasAccessibility ? "Accessibility: Enabled" : "Accessibility: Disabled")
-                    .font(.caption)
-                    .foregroundColor(hasAccessibility ? .green : .red)
+
+            VStack(alignment: .leading, spacing: 10) {
+                PermissionRow(
+                    title: "Accessibility",
+                    isEnabled: appState.hasAccessibility,
+                    detail: "Needed to insert emoji directly into focused text fields."
+                )
+
+                PermissionRow(
+                    title: "Input Monitoring",
+                    isEnabled: appState.hasInputMonitoring && appState.hotkeyCaptureAvailable,
+                    detail: "Needed to catch `§` globally and prevent the raw key from being typed."
+                )
             }
-            
-            if !hasAccessibility {
-                Button("Open System Settings") {
-                    openAccessibilitySettings()
+
+            if !appState.hasAccessibility || !appState.hasInputMonitoring || !appState.hotkeyCaptureAvailable {
+                VStack(alignment: .leading, spacing: 8) {
+                    if !appState.hasAccessibility {
+                        Button("Grant Accessibility") {
+                            appState.requestAccessibilityPermission()
+                        }
+                    }
+
+                    if !appState.hasInputMonitoring || !appState.hotkeyCaptureAvailable {
+                        Button("Grant Input Monitoring") {
+                            appState.requestInputMonitoringPermission()
+                        }
+                    }
+
+                    Button("Refresh Permissions") {
+                        appState.refreshAll()
+                    }
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
             }
-            
-            // statistics
-            Button("View Statistics") {
-                openStatisticsWindow()
+
+            VStack(alignment: .leading, spacing: 8) {
+                Toggle(
+                    "Launch at login",
+                    isOn: Binding(
+                        get: { appState.launchAtLoginEnabled },
+                        set: { appState.setLaunchAtLoginEnabled($0) }
+                    )
+                )
+
+                Text(appState.launchAtLoginStatusText)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            
-            // quit
+
+            HStack(spacing: 10) {
+                Button("Open Picker", action: openPicker)
+                    .buttonStyle(.borderedProminent)
+
+                Button("Statistics", action: showStatistics)
+                    .buttonStyle(.bordered)
+            }
+
             Button("Quit") {
                 NSApplication.shared.terminate(nil)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.bordered)
             .controlSize(.small)
         }
-        .padding(30)
-        .frame(width: 300, height: 240)
+        .padding(20)
+        .frame(width: 340)
         .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
-                hasAccessibility = AXIsProcessTrusted()
+            appState.refreshAll()
+        }
+        .onReceive(refreshTimer) { _ in
+            appState.refreshAll()
+        }
+    }
+}
+
+private struct PermissionRow: View {
+    let title: String
+    let isEnabled: Bool
+    let detail: String
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Circle()
+                .fill(isEnabled ? Color.green : Color.orange)
+                .frame(width: 10, height: 10)
+                .padding(.top, 4)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.headline)
+
+                Text(detail)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
-    }
-    
-    func openAccessibilitySettings() {
-        let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
-        NSWorkspace.shared.open(url)
-    }
-    
-    private func openStatisticsWindow() {
-        if let existingWindow = TopBarView.statisticsWindow {
-            existingWindow.close()
-            TopBarView.statisticsWindow = nil
-        }
-        
-        let statisticsView = EmojiStatisticsView()
-        let hostingController = NSHostingController(rootView: statisticsView)
-        
-        let window = NSWindow(contentViewController: hostingController)
-        window.title = "Emoji Statistics"
-        window.styleMask = [.titled, .closable, .resizable]
-        window.setContentSize(NSSize(width: 600, height: 500))
-        window.center()
-        window.makeKeyAndOrderFront(nil)
-        
-        TopBarView.statisticsWindow = window
-        window.delegate = WindowCleanupDelegate.shared
-    }
-}
-
-class WindowCleanupDelegate: NSObject, NSWindowDelegate {
-    static let shared = WindowCleanupDelegate()
-    
-    func windowWillClose(_ notification: Notification) {
-        if let window = notification.object as? NSWindow,
-           window.title == "Emoji Statistics" {
-            TopBarView.statisticsWindow = nil
-        }
-    }
-}
-
-struct ActivationKeyIcon: View {
-    let text: String
-    
-    var body: some View {
-        Text(text)
-            .font(.system(.body, design: .monospaced))
-            .fontWeight(.semibold)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.gray.opacity(0.2))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-            )
     }
 }

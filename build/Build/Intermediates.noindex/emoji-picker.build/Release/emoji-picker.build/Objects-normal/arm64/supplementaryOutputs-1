@@ -1,0 +1,12 @@
+{
+  "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiView.swift" : {
+    "abi-baseline-json" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji_picker.abi.json",
+    "const-values" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji-picker-primary.swiftconstvalues",
+    "dependencies" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji-picker-primary.d",
+    "diagnostics" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji-picker-primary.dia",
+    "objc-header" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji_picker-Swift.h",
+    "swiftdoc" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji_picker.swiftdoc",
+    "swiftmodule" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji_picker.swiftmodule",
+    "swiftsourceinfo" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji_picker.swiftsourceinfo"
+  }
+}
