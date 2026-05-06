@@ -6,6 +6,48 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
+		<key>007F958B-4A39-4C22-AC74-C07178891D11</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>007F958B-4A39-4C22-AC74-C07178891D11.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>emoji-picker project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>emoji-picker</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Cleaning project emoji-picker with scheme emoji-picker and configuration Release</string>
+			<key>timeStartedRecording</key>
+			<real>799759399.77604902</real>
+			<key>timeStoppedRecording</key>
+			<real>799759400.02986896</real>
+			<key>title</key>
+			<string>Cleaning project emoji-picker with scheme emoji-picker and configuration Release</string>
+			<key>uniqueIdentifier</key>
+			<string>007F958B-4A39-4C22-AC74-C07178891D11</string>
+		</dict>
 		<key>BC465A76-693D-4D24-96E5-0742E49BDE4A</key>
 		<dict>
 			<key>className</key>

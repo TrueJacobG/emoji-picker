@@ -47,7 +47,21 @@ final class AppState: ObservableObject {
     }
 
     func requestInputMonitoringPermission() {
-        _ = CGRequestListenEventAccess()
+        let granted = CGRequestListenEventAccess()
+        hotkeyService?.refreshRegistration()
+        refreshAll()
+
+        guard !granted else {
+            return
+        }
+
+        // If macOS doesn't show the consent dialog (common after a prior deny),
+        // send the user directly to the Input Monitoring settings pane.
+        openSystemSettings(urlStrings: [
+            "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent",
+            "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ListenEvent",
+            "x-apple.systempreferences:com.apple.preference.security?Privacy"
+        ])
     }
 
     func setHotkeyCaptureAvailable(_ isAvailable: Bool) {
@@ -63,5 +77,17 @@ final class AppState: ObservableObject {
 
     func applyLaunchAtLoginPreference() {
         launchAtLoginStatusText = launchAtLoginManager.apply(desiredEnabled: launchAtLoginEnabled)
+    }
+
+    private func openSystemSettings(urlStrings: [String]) {
+        for urlString in urlStrings {
+            guard let url = URL(string: urlString) else {
+                continue
+            }
+
+            if NSWorkspace.shared.open(url) {
+                break
+            }
+        }
     }
 }
