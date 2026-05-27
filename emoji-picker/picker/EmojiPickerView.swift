@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EmojiPickerView: View {
     @ObservedObject var viewModel: EmojiPickerViewModel
+    @ObservedObject var customEmojiStore: CustomEmojiStore
 
     @FocusState private var isSearchFocused: Bool
 
@@ -26,6 +27,7 @@ struct EmojiPickerView: View {
                                 EmojiResultRowView(
                                     result: result,
                                     isSelected: viewModel.selectedIndex == index,
+                                    displayLetter: customEmojiStore.displayLetter(for: result.emoji.emoji),
                                     action: {
                                         viewModel.insert(result)
                                     }

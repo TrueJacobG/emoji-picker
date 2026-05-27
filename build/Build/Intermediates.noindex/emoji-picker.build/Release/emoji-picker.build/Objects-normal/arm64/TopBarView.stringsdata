@@ -4,10 +4,18 @@
     "Localizable": [
       {
         "comment": "",
+        "key": "Manage Custom Emoji",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
         "key": "Quit",
         "location": {
           "startingColumn": 20,
-          "startingLine": 81
+          "startingLine": 85
         }
       },
       {
@@ -15,7 +23,7 @@
         "key": "Emoji Picker",
         "location": {
           "startingColumn": 22,
-          "startingLine": 15
+          "startingLine": 16
         }
       },
       {
@@ -23,7 +31,7 @@
         "key": "Press `§` from any app to open the picker.",
         "location": {
           "startingColumn": 22,
-          "startingLine": 18
+          "startingLine": 19
         }
       },
       {
@@ -31,7 +39,7 @@
         "key": "Grant Accessibility",
         "location": {
           "startingColumn": 32,
-          "startingLine": 40
+          "startingLine": 41
         }
       },
       {
@@ -39,7 +47,7 @@
         "key": "Grant Input Monitoring",
         "location": {
           "startingColumn": 32,
-          "startingLine": 46
+          "startingLine": 47
         }
       },
       {
@@ -47,7 +55,7 @@
         "key": "Refresh Permissions",
         "location": {
           "startingColumn": 28,
-          "startingLine": 51
+          "startingLine": 52
         }
       },
       {
@@ -55,7 +63,7 @@
         "key": "Launch at login",
         "location": {
           "startingColumn": 21,
-          "startingLine": 61
+          "startingLine": 62
         }
       },
       {
@@ -63,7 +71,7 @@
         "key": "Open Picker",
         "location": {
           "startingColumn": 24,
-          "startingLine": 74
+          "startingLine": 75
         }
       },
       {
@@ -71,7 +79,7 @@
         "key": "Statistics",
         "location": {
           "startingColumn": 24,
-          "startingLine": 77
+          "startingLine": 78
         }
       }
     ]

@@ -3,14 +3,19 @@ import SwiftUI
 struct EmojiResultRowView: View {
     let result: EmojiSearchResult
     let isSelected: Bool
+    let displayLetter: String
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: 12) {
-                Text(result.emoji.emoji)
-                    .font(.system(size: 30))
-                    .frame(width: 40)
+                if result.isCustom {
+                    CustomEmojiBadge(letter: displayLetter)
+                } else {
+                    Text(result.emoji.emoji)
+                        .font(.system(size: 30))
+                        .frame(width: 40)
+                }
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(result.primaryName)
@@ -38,7 +43,7 @@ struct EmojiResultRowView: View {
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 14)
-                    .fill(isSelected ? Color.accentColor.opacity(0.18) : Color.primary.opacity(0.04))
+                    .fill(rowBackground)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 14)
@@ -46,5 +51,17 @@ struct EmojiResultRowView: View {
             )
         }
         .buttonStyle(.plain)
+    }
+
+    private var rowBackground: Color {
+        if isSelected {
+            return Color.accentColor.opacity(0.18)
+        }
+
+        if result.isCustom {
+            return Color.orange.opacity(0.08)
+        }
+
+        return Color.primary.opacity(0.04)
     }
 }

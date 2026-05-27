@@ -1,5 +1,5 @@
 {
-  "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiView.swift" : {
+  "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmoji.swift" : {
     "abi-baseline-json" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji_picker.abi.json",
     "const-values" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji-picker-primary.swiftconstvalues",
     "dependencies" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/build/Build/Intermediates.noindex/emoji-picker.build/Release/emoji-picker.build/Objects-normal/arm64/emoji-picker-primary.d",

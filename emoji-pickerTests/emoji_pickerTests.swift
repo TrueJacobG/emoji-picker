@@ -13,9 +13,10 @@ struct emoji_pickerTests {
 
     @Test func exactMatchesRankAheadOfPrefixAndSubstringMatches() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
 
         let results = service.results(for: "smile", limit: 10)
@@ -25,11 +26,12 @@ struct emoji_pickerTests {
 
     @Test func usageCountBreaksTiesWithinTheSameRank() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { emoji in
                 emoji == "🙂" ? 8 : 1
             },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
 
         let results = service.results(for: "smi", limit: 10)
@@ -39,11 +41,12 @@ struct emoji_pickerTests {
 
     @Test func emptySearchUsesMostUsedThenCuratedDefaults() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { emoji in
                 emoji == "🔥" ? 5 : 0
             },
-            mostUsedProvider: { _ in [("🔥", 5)] }
+            mostUsedProvider: { _ in [("🔥", 5)] },
+            isCustomProvider: { _ in false }
         )
 
         let results = service.results(for: "", limit: 4)
@@ -60,9 +63,10 @@ struct emoji_pickerTests {
         ]
 
         let service = EmojiSearchService(
-            emojis: duplicatedEmojis,
+            emojiProvider: { duplicatedEmojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
 
         let results = service.results(for: "face", limit: 10)
@@ -72,9 +76,10 @@ struct emoji_pickerTests {
 
     @Test @MainActor func pickerViewModelResetsSelectionWhenSearchChanges() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
         let viewModel = EmojiPickerViewModel(searchService: service)
 
@@ -104,9 +109,10 @@ struct emoji_pickerTests {
 
     @Test @MainActor func moveSelectionClampsAtBounds() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
         let viewModel = EmojiPickerViewModel(searchService: service)
 
@@ -123,9 +129,10 @@ struct emoji_pickerTests {
 
     @Test @MainActor func insertSelectedInvokesOnInsertWithCurrentSelection() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
         let viewModel = EmojiPickerViewModel(searchService: service)
 
@@ -140,9 +147,10 @@ struct emoji_pickerTests {
 
     @Test @MainActor func insertForwardsExplicitResultToOnInsert() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
         let viewModel = EmojiPickerViewModel(searchService: service)
 
@@ -161,9 +169,10 @@ struct emoji_pickerTests {
 
     @Test @MainActor func prepareForPresentationClearsSearchAndBumpsPresentationID() {
         let service = EmojiSearchService(
-            emojis: sampleEmojis,
+            emojiProvider: { sampleEmojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
         let viewModel = EmojiPickerViewModel(searchService: service)
 
@@ -183,9 +192,10 @@ struct emoji_pickerTests {
             Emoji(emoji: "🥖", name: ["Baguette"])
         ]
         let service = EmojiSearchService(
-            emojis: emojis,
+            emojiProvider: { emojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
 
         let lowerNoDiacritic = service.results(for: "cafe", limit: 10)
@@ -200,13 +210,93 @@ struct emoji_pickerTests {
             Emoji(emoji: "E\(index)", name: ["match item \(index)"])
         }
         let service = EmojiSearchService(
-            emojis: emojis,
+            emojiProvider: { emojis },
             usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] }
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { _ in false }
         )
 
         let results = service.results(for: "match", limit: 3)
 
         #expect(results.count == 3)
+    }
+
+    @Test func customEmojiIsSearchableByNameAndPasteText() {
+        let custom = Emoji(emoji: ":super_smile:", name: ["super smile", ":super_smile:"])
+        let service = EmojiSearchService(
+            emojiProvider: { sampleEmojis + [custom] },
+            usageCountProvider: { _ in 0 },
+            mostUsedProvider: { _ in [] },
+            isCustomProvider: { $0 == ":super_smile:" }
+        )
+
+        let byName = service.results(for: "super smile", limit: 10)
+        #expect(byName.first?.emoji.emoji == ":super_smile:")
+        #expect(byName.first?.isCustom == true)
+
+        let byPasteText = service.results(for: ":super_smile:", limit: 10)
+        #expect(byPasteText.first?.emoji.emoji == ":super_smile:")
+    }
+
+    @Test func statisticsDefaultSortHandlesDuplicateBundledEmojiValues() {
+        let duplicatedBundled = [
+            Emoji(emoji: "❤️‍🔥", name: ["heart on fire"]),
+            Emoji(emoji: "❤️‍🔥", name: ["heart on fire variant"]),
+            Emoji(emoji: "🔥", name: ["fire"])
+        ]
+
+        let sorted = EmojiStatisticsSorter.sorted(
+            duplicatedBundled,
+            mode: .default,
+            bundledEmojis: duplicatedBundled,
+            usageCount: { _ in 0 }
+        )
+
+        #expect(sorted.count == 3)
+    }
+
+    @Test func statisticsSortOrdersByUsage() {
+        let emojis = [
+            Emoji(emoji: "😀", name: ["grinning face"]),
+            Emoji(emoji: "🔥", name: ["fire"]),
+            Emoji(emoji: "👀", name: ["eyes"])
+        ]
+
+        let usageCounts = ["😀": 1, "🔥": 5, "👀": 3]
+
+        let mostUsed = EmojiStatisticsSorter.sorted(
+            emojis,
+            mode: .mostUsed,
+            bundledEmojis: emojis,
+            usageCount: { usageCounts[$0, default: 0] }
+        )
+        #expect(mostUsed.map(\.emoji) == ["🔥", "👀", "😀"])
+
+        let leastUsed = EmojiStatisticsSorter.sorted(
+            emojis,
+            mode: .leastUsed,
+            bundledEmojis: emojis,
+            usageCount: { usageCounts[$0, default: 0] }
+        )
+        #expect(leastUsed.map(\.emoji) == ["😀", "👀", "🔥"])
+    }
+
+    @Test @MainActor func customEmojiStoreAddsAndDeletesEntries() throws {
+        let defaults = UserDefaults(suiteName: "emoji-picker-tests-\(UUID().uuidString)")!
+        let store = CustomEmojiStore(
+            bundledEmojis: sampleEmojis,
+            userDefaults: defaults,
+            storageKey: "customEmojis"
+        )
+
+        let added = try store.add(name: "super smile", pasteText: ":super_smile:")
+        #expect(store.customEmojis.count == 1)
+        #expect(store.isCustom(":super_smile:"))
+        #expect(store.displayLetter(for: ":super_smile:") == "S")
+        #expect(store.allEmojis.contains(where: { $0.emoji == ":super_smile:" }))
+
+        store.delete(added)
+        #expect(store.customEmojis.isEmpty)
+        #expect(!store.isCustom(":super_smile:"))
     }
 }

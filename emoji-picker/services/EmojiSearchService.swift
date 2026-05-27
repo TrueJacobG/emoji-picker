@@ -4,6 +4,7 @@ struct EmojiSearchResult: Identifiable, Equatable {
     let emoji: Emoji
     let matchedAlias: String
     let usageCount: Int
+    let isCustom: Bool
 
     var id: String { emoji.id }
     var primaryName: String { emoji.name.first ?? emoji.emoji }
@@ -13,10 +14,10 @@ struct EmojiSearchResult: Identifiable, Equatable {
 }
 
 final class EmojiSearchService {
-    private let emojis: [Emoji]
-    private let emojiByValue: [String: Emoji]
+    private let emojiProvider: () -> [Emoji]
     private let usageCountProvider: (String) -> Int
     private let mostUsedProvider: (Int?) -> [(emoji: String, count: Int)]
+    private let isCustomProvider: (String) -> Bool
     private let curatedDefaults = [
         "😀", "😂", "😍", "🥲", "🤔", "🙌", "🔥", "✅",
         "🎉", "🙏", "👀", "🤝", "💡", "🚀", "❤️", "👍",
@@ -24,25 +25,29 @@ final class EmojiSearchService {
     ]
 
     init(
-        emojis: [Emoji] = EmojiProvider.loadEmojis(from: "emoji2"),
+        emojiProvider: @escaping () -> [Emoji] = { EmojiProvider.loadEmojis(from: "emoji2") },
         usageCountProvider: @escaping (String) -> Int = { EmojiUsageTracker.shared.getUsageCount(for: $0) },
-        mostUsedProvider: @escaping (Int?) -> [(emoji: String, count: Int)] = { EmojiUsageTracker.shared.getMostUsedEmojis(limit: $0) }
+        mostUsedProvider: @escaping (Int?) -> [(emoji: String, count: Int)] = { EmojiUsageTracker.shared.getMostUsedEmojis(limit: $0) },
+        isCustomProvider: @escaping (String) -> Bool = { _ in false }
     ) {
-        self.emojis = emojis
-        self.emojiByValue = emojis.reduce(into: [:]) { partialResult, emoji in
+        self.emojiProvider = emojiProvider
+        self.usageCountProvider = usageCountProvider
+        self.mostUsedProvider = mostUsedProvider
+        self.isCustomProvider = isCustomProvider
+    }
+
+    func results(for query: String, limit: Int = 40) -> [EmojiSearchResult] {
+        let emojis = emojiProvider()
+        let emojiByValue = emojis.reduce(into: [String: Emoji]()) { partialResult, emoji in
             if partialResult[emoji.emoji] == nil {
                 partialResult[emoji.emoji] = emoji
             }
         }
-        self.usageCountProvider = usageCountProvider
-        self.mostUsedProvider = mostUsedProvider
-    }
 
-    func results(for query: String, limit: Int = 40) -> [EmojiSearchResult] {
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !trimmedQuery.isEmpty else {
-            return defaultResults(limit: limit)
+            return defaultResults(from: emojis, emojiByValue: emojiByValue, limit: limit)
         }
 
         let normalizedQuery = normalize(trimmedQuery)
@@ -104,14 +109,15 @@ final class EmojiSearchService {
             result: EmojiSearchResult(
                 emoji: emoji,
                 matchedAlias: bestCandidate.alias,
-                usageCount: usageCount
+                usageCount: usageCount,
+                isCustom: isCustomProvider(emoji.emoji)
             ),
             rank: bestCandidate.rank,
             aliasLength: bestCandidate.alias.count
         )
     }
 
-    private func defaultResults(limit: Int) -> [EmojiSearchResult] {
+    private func defaultResults(from emojis: [Emoji], emojiByValue: [String: Emoji], limit: Int) -> [EmojiSearchResult] {
         var results: [EmojiSearchResult] = []
         var seen = Set<String>()
 
@@ -124,7 +130,8 @@ final class EmojiSearchService {
                 EmojiSearchResult(
                     emoji: emoji,
                     matchedAlias: emoji.name.first ?? emoji.emoji,
-                    usageCount: entry.count
+                    usageCount: entry.count,
+                    isCustom: isCustomProvider(emoji.emoji)
                 )
             )
         }
@@ -138,7 +145,8 @@ final class EmojiSearchService {
                 EmojiSearchResult(
                     emoji: emoji,
                     matchedAlias: emoji.name.first ?? emoji.emoji,
-                    usageCount: usageCountProvider(emojiValue)
+                    usageCount: usageCountProvider(emojiValue),
+                    isCustom: isCustomProvider(emojiValue)
                 )
             )
         }
@@ -153,7 +161,8 @@ final class EmojiSearchService {
                     EmojiSearchResult(
                         emoji: emoji,
                         matchedAlias: emoji.name.first ?? emoji.emoji,
-                        usageCount: usageCountProvider(emoji.emoji)
+                        usageCount: usageCountProvider(emoji.emoji),
+                        isCustom: isCustomProvider(emoji.emoji)
                     )
                 )
             }

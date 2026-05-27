@@ -6,6 +6,7 @@ struct TopBarView: View {
 
     let openPicker: () -> Void
     let showStatistics: () -> Void
+    let showCustomEmoji: () -> Void
 
     private let refreshTimer = Timer.publish(every: 2.0, on: .main, in: .common).autoconnect()
 
@@ -77,6 +78,9 @@ struct TopBarView: View {
                 Button("Statistics", action: showStatistics)
                     .buttonStyle(.bordered)
             }
+
+            Button("Manage Custom Emoji", action: showCustomEmoji)
+                .buttonStyle(.bordered)
 
             Button("Quit") {
                 NSApplication.shared.terminate(nil)

@@ -5,6 +5,7 @@ import SwiftUI
 final class PickerCoordinator: NSObject, NSWindowDelegate {
     private let searchService: EmojiSearchService
     private let insertionService: EmojiInsertionService
+    private let customEmojiStore: CustomEmojiStore
     private let viewModel: EmojiPickerViewModel
 
     private var panel: PickerPanel?
@@ -13,9 +14,10 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
     private var isClosing = false
     private var isInserting = false
 
-    init(searchService: EmojiSearchService, insertionService: EmojiInsertionService) {
+    init(searchService: EmojiSearchService, insertionService: EmojiInsertionService, customEmojiStore: CustomEmojiStore) {
         self.searchService = searchService
         self.insertionService = insertionService
+        self.customEmojiStore = customEmojiStore
         self.viewModel = EmojiPickerViewModel(searchService: searchService)
         super.init()
 
@@ -79,7 +81,12 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
         panel.standardWindowButton(.zoomButton)?.isHidden = true
         panel.delegate = self
-        panel.contentView = NSHostingView(rootView: EmojiPickerView(viewModel: viewModel))
+        panel.contentView = NSHostingView(
+            rootView: EmojiPickerView(
+                viewModel: viewModel,
+                customEmojiStore: customEmojiStore
+            )
+        )
 
         self.panel = panel
         return panel
