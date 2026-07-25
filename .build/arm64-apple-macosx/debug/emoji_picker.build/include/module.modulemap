@@ -1,0 +1,3 @@
+module emoji_picker {
+    header "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/include/emoji-picker-Swift.h"
+}

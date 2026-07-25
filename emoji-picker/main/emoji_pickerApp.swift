@@ -43,13 +43,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         configureStatusItem()
         configurePopover()
 
-        appState.attach(hotkeyService: hotkeyService)
+        let isTestMode = ProcessInfo.processInfo.environment["EMOJI_PICKER_TEST_MODE"] == "1"
+
+        if !isTestMode {
+            appState.attach(hotkeyService: hotkeyService)
+            appState.requestInitialPermissions()
+        }
+
         appState.applyLaunchAtLoginPreference()
         appState.refreshAll()
-        appState.requestInitialPermissions()
 
-        hotkeyService.start()
-        appState.refreshAll()
+        if !isTestMode {
+            hotkeyService.start()
+            appState.refreshAll()
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {

@@ -1,0 +1,1077 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.xctest/Contents/MacOS/emoji-pickerPackageTests",
+      "packagePath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker",
+      "productName" : "emoji-pickerPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.emoji-picker-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/sources",
+      "importPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmoji.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiBadge.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiStore.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/emoji/Emoji.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/TopBarView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/emoji_pickerApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiResultRowView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AXHelpers.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppSettings.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppState.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiInsertionService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiSearchService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/HotkeyService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/InsertionLogger.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/LaunchAtLoginManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/PickerCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiCellWithStats.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsSorter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiUsageTracker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/AppConstants.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/EmojiProvider.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/Utils.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "emoji_picker",
+      "moduleOutputPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_picker.swiftmodule",
+      "objects" : [
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmoji.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiBadge.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiStore.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiView.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/Emoji.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/TopBarView.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/emoji_pickerApp.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiPickerView.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiPickerViewModel.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiResultRowView.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AXHelpers.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppSettings.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppState.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiInsertionService.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiSearchService.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/HotkeyService.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/InsertionLogger.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/LaunchAtLoginManager.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/PickerCoordinator.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiCellWithStats.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiStatisticsSorter.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiStatisticsView.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiUsageTracker.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppConstants.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiProvider.swift.o",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/Utils.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/include/emoji-picker-Swift.h",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "emoji_picker"
+      ],
+      "outputFileMapPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmoji.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiBadge.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiStore.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/Emoji.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/TopBarView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/emoji_pickerApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiPickerView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiPickerViewModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiResultRowView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AXHelpers.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppSettings.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppState.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiInsertionService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiSearchService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/HotkeyService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/InsertionLogger.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/LaunchAtLoginManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/PickerCoordinator.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiCellWithStats.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiStatisticsSorter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiStatisticsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiUsageTracker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppConstants.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiProvider.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/Utils.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_picker.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmoji.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiBadge.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiStore.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiView.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/emoji/Emoji.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/TopBarView.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/emoji_pickerApp.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerView.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerViewModel.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiResultRowView.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AXHelpers.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppSettings.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppState.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiInsertionService.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiSearchService.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/HotkeyService.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/InsertionLogger.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/LaunchAtLoginManager.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/PickerCoordinator.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiCellWithStats.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsSorter.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsView.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiUsageTracker.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/AppConstants.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/EmojiProvider.swift",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/Utils.swift"
+      ],
+      "tempsPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.emoji-pickerPackageTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/sources",
+      "importPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_pickerTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "emoji_pickerPackageTests",
+      "moduleOutputPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_pickerPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/include/emoji-pickerPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "emoji_picker"
+      ],
+      "outputFileMapPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_pickerPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.emoji-pickerTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/sources",
+      "importPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-pickerTests/emoji_pickerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_picker.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "emoji_pickerTests",
+      "moduleOutputPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_pickerTests.swiftmodule",
+      "objects" : [
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/emoji_pickerTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "emoji_picker"
+      ],
+      "outputFileMapPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/emoji_pickerTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules/emoji_pickerTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-pickerTests/emoji_pickerTests.swift"
+      ],
+      "tempsPath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "emoji_picker" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "emoji_picker",
+      "-package-name",
+      "emoji_picker",
+      "-c",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmoji.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiBadge.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiStore.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiView.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/emoji/Emoji.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/TopBarView.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/emoji_pickerApp.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerView.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerViewModel.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiResultRowView.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AXHelpers.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppSettings.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppState.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiInsertionService.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiSearchService.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/HotkeyService.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/InsertionLogger.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/LaunchAtLoginManager.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/PickerCoordinator.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiCellWithStats.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsSorter.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsView.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiUsageTracker.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/AppConstants.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/EmojiProvider.swift",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/Utils.swift",
+      "-I",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/include/emoji-picker-Swift.h",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "emoji_picker",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "emoji_pickerPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "emoji_pickerPackageTests",
+      "-package-name",
+      "emoji_picker",
+      "-c",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/include/emoji-pickerPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "emoji_picker",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "emoji_pickerTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "emoji_pickerTests",
+      "-package-name",
+      "emoji_picker",
+      "-c",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-pickerTests/emoji_pickerTests.swift",
+      "-I",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "emoji_picker",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "emoji_picker" : [
+
+    ],
+    "emoji_pickerPackageTests" : [
+      "emoji_pickerTests",
+      "emoji_picker"
+    ],
+    "emoji_pickerTests" : [
+      "emoji_picker"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AXHelpers.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppConstants.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppSettings.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/AppState.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmoji.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiBadge.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiStore.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/CustomEmojiView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/Emoji.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiCellWithStats.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiInsertionService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiPickerView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiPickerViewModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiProvider.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiResultRowView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiSearchService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiStatisticsSorter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiStatisticsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/EmojiUsageTracker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/HotkeyService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/InsertionLogger.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/LaunchAtLoginManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/PickerCoordinator.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/TopBarView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/Utils.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/emoji_pickerApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/emoji_pickerTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmoji.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiBadge.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiStore.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/custom/CustomEmojiView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/emoji/Emoji.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/TopBarView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/main/emoji_pickerApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiPickerViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/picker/EmojiResultRowView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AXHelpers.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppSettings.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/AppState.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiInsertionService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/EmojiSearchService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/HotkeyService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/InsertionLogger.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/LaunchAtLoginManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/services/PickerCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiCellWithStats.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsSorter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiStatisticsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/statistics/EmojiUsageTracker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/AppConstants.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/EmojiProvider.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-picker/utils/Utils.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_picker.build/sources"
+    },
+    "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji-pickerPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerPackageTests.build/sources"
+    },
+    "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/emoji-pickerTests/emoji_pickerTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/emoji_pickerTests.build/sources"
+    },
+    "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/jakubgradzewicz/DEV/swift/emoji-picker/emoji-picker/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

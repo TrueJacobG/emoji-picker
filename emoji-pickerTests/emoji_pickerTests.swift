@@ -3,7 +3,8 @@ import Foundation
 import Testing
 @testable import emoji_picker
 
-struct emoji_pickerTests {
+@MainActor
+final class emoji_pickerTests {
     private let sampleEmojis = [
         Emoji(emoji: "😀", name: ["grinning face", "smile"]),
         Emoji(emoji: "🙂", name: ["slightly smiling face", "smiley"]),
@@ -11,13 +12,22 @@ struct emoji_pickerTests {
         Emoji(emoji: "👀", name: ["eyes"])
     ]
 
-    @Test func exactMatchesRankAheadOfPrefixAndSubstringMatches() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
+    private func makeService(
+        emojis: [Emoji],
+        usageCount: @escaping (String) -> Int = { _ in 0 },
+        mostUsed: [(emoji: String, count: Int)] = [],
+        isCustom: @escaping (String) -> Bool = { _ in false }
+    ) -> EmojiSearchService {
+        EmojiSearchService(
+            emojiProvider: { emojis },
+            usageCountProvider: usageCount,
+            mostUsedProvider: { _ in mostUsed },
+            isCustomProvider: isCustom
         )
+    }
+
+    @Test func exactMatchesRankAheadOfPrefixAndSubstringMatches() {
+        let service = makeService(emojis: sampleEmojis)
 
         let results = service.results(for: "smile", limit: 10)
 
@@ -25,13 +35,9 @@ struct emoji_pickerTests {
     }
 
     @Test func usageCountBreaksTiesWithinTheSameRank() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { emoji in
-                emoji == "🙂" ? 8 : 1
-            },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
+        let service = makeService(
+            emojis: sampleEmojis,
+            usageCount: { emoji in emoji == "🙂" ? 8 : 1 }
         )
 
         let results = service.results(for: "smi", limit: 10)
@@ -40,13 +46,10 @@ struct emoji_pickerTests {
     }
 
     @Test func emptySearchUsesMostUsedThenCuratedDefaults() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { emoji in
-                emoji == "🔥" ? 5 : 0
-            },
-            mostUsedProvider: { _ in [("🔥", 5)] },
-            isCustomProvider: { _ in false }
+        let service = makeService(
+            emojis: sampleEmojis,
+            usageCount: { emoji in emoji == "🔥" ? 5 : 0 },
+            mostUsed: [("🔥", 5)]
         )
 
         let results = service.results(for: "", limit: 4)
@@ -62,25 +65,15 @@ struct emoji_pickerTests {
             Emoji(emoji: "🔥", name: ["fire"])
         ]
 
-        let service = EmojiSearchService(
-            emojiProvider: { duplicatedEmojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+        let service = makeService(emojis: duplicatedEmojis)
 
         let results = service.results(for: "face", limit: 10)
 
         #expect(results.contains(where: { $0.emoji.emoji == "😀" }))
     }
 
-    @Test @MainActor func pickerViewModelResetsSelectionWhenSearchChanges() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+    @Test func pickerViewModelResetsSelectionWhenSearchChanges() {
+        let service = makeService(emojis: sampleEmojis)
         let viewModel = EmojiPickerViewModel(searchService: service)
 
         viewModel.moveSelection(by: 1)
@@ -92,7 +85,7 @@ struct emoji_pickerTests {
         #expect(viewModel.selectedResult?.emoji.emoji == "🔥")
     }
 
-    @Test @MainActor func pasteboardSnapshotRestoresStringContents() {
+    @Test func pasteboardSnapshotRestoresStringContents() {
         let pasteboard = NSPasteboard(name: NSPasteboard.Name("emoji-picker-tests-\(UUID().uuidString)"))
         pasteboard.clearContents()
         pasteboard.setString("before", forType: .string)
@@ -107,13 +100,8 @@ struct emoji_pickerTests {
         #expect(pasteboard.string(forType: .string) == "before")
     }
 
-    @Test @MainActor func moveSelectionClampsAtBounds() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+    @Test func moveSelectionClampsAtBounds() {
+        let service = makeService(emojis: sampleEmojis)
         let viewModel = EmojiPickerViewModel(searchService: service)
 
         viewModel.moveSelection(by: -5)
@@ -127,13 +115,8 @@ struct emoji_pickerTests {
         #expect(viewModel.selectedIndex == lastIndex)
     }
 
-    @Test @MainActor func insertSelectedInvokesOnInsertWithCurrentSelection() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+    @Test func insertSelectedInvokesOnInsertWithCurrentSelection() {
+        let service = makeService(emojis: sampleEmojis)
         let viewModel = EmojiPickerViewModel(searchService: service)
 
         var captured: EmojiSearchResult?
@@ -145,13 +128,8 @@ struct emoji_pickerTests {
         #expect(captured?.emoji.emoji == "🔥")
     }
 
-    @Test @MainActor func insertForwardsExplicitResultToOnInsert() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+    @Test func insertForwardsExplicitResultToOnInsert() {
+        let service = makeService(emojis: sampleEmojis)
         let viewModel = EmojiPickerViewModel(searchService: service)
 
         var captured: EmojiSearchResult?
@@ -167,13 +145,8 @@ struct emoji_pickerTests {
         #expect(captured?.emoji.emoji == "👀")
     }
 
-    @Test @MainActor func prepareForPresentationClearsSearchAndBumpsPresentationID() {
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+    @Test func prepareForPresentationClearsSearchAndBumpsPresentationID() {
+        let service = makeService(emojis: sampleEmojis)
         let viewModel = EmojiPickerViewModel(searchService: service)
 
         viewModel.searchText = "fire"
@@ -191,12 +164,7 @@ struct emoji_pickerTests {
             Emoji(emoji: "☕", name: ["Café"]),
             Emoji(emoji: "🥖", name: ["Baguette"])
         ]
-        let service = EmojiSearchService(
-            emojiProvider: { emojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+        let service = makeService(emojis: emojis)
 
         let lowerNoDiacritic = service.results(for: "cafe", limit: 10)
         #expect(lowerNoDiacritic.map(\.emoji.emoji) == ["☕"])
@@ -209,12 +177,7 @@ struct emoji_pickerTests {
         let emojis = (0..<10).map { index in
             Emoji(emoji: "E\(index)", name: ["match item \(index)"])
         }
-        let service = EmojiSearchService(
-            emojiProvider: { emojis },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { _ in false }
-        )
+        let service = makeService(emojis: emojis)
 
         let results = service.results(for: "match", limit: 3)
 
@@ -223,11 +186,9 @@ struct emoji_pickerTests {
 
     @Test func customEmojiIsSearchableByNameAndPasteText() {
         let custom = Emoji(emoji: ":super_smile:", name: ["super smile", ":super_smile:"])
-        let service = EmojiSearchService(
-            emojiProvider: { sampleEmojis + [custom] },
-            usageCountProvider: { _ in 0 },
-            mostUsedProvider: { _ in [] },
-            isCustomProvider: { $0 == ":super_smile:" }
+        let service = makeService(
+            emojis: sampleEmojis + [custom],
+            isCustom: { $0 == ":super_smile:" }
         )
 
         let byName = service.results(for: "super smile", limit: 10)
@@ -281,7 +242,7 @@ struct emoji_pickerTests {
         #expect(leastUsed.map(\.emoji) == ["😀", "👀", "🔥"])
     }
 
-    @Test @MainActor func customEmojiStoreAddsAndDeletesEntries() throws {
+    @Test func customEmojiStoreAddsAndDeletesEntries() throws {
         let defaults = UserDefaults(suiteName: "emoji-picker-tests-\(UUID().uuidString)")!
         let store = CustomEmojiStore(
             bundledEmojis: sampleEmojis,
@@ -298,28 +259,6 @@ struct emoji_pickerTests {
         store.delete(added)
         #expect(store.customEmojis.isEmpty)
         #expect(!store.isCustom(":super_smile:"))
-    }
-
-    @Test func extractStringReturnsNilForNil() {
-        #expect(extractString(from: nil) == nil)
-    }
-
-    @Test func extractStringReturnsStringDirectly() {
-        let value: CFTypeRef = "hello" as CFTypeRef
-        #expect(extractString(from: value) == "hello")
-    }
-
-    @Test func extractStringExtractsFromNSAttributedString() {
-        let attrStr = NSAttributedString(string: "from attributed")
-        let value: CFTypeRef = attrStr
-        #expect(extractString(from: value) == "from attributed")
-    }
-
-    @Test func extractNSAttributedStringWithFormatting() {
-        let attrStr = NSMutableAttributedString(string: "bold text")
-        attrStr.addAttribute(.font, value: NSFont.boldSystemFont(ofSize: 12), range: NSRange(location: 0, length: 4))
-        let value: CFTypeRef = attrStr
-        #expect(extractString(from: value) == "bold text")
     }
 
     @Test func replaceTextAtCursorInsertsEmoji() {

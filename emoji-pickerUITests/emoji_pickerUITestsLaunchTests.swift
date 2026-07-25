@@ -20,6 +20,7 @@ final class emoji_pickerUITestsLaunchTests: XCTestCase {
     @MainActor
     func testLaunch() throws {
         let app = XCUIApplication()
+        app.launchEnvironment["EMOJI_PICKER_TEST_MODE"] = "1"
         app.launch()
 
         // Insert steps here to perform after app launch but before taking a screenshot,

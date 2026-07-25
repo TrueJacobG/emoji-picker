@@ -49,11 +49,8 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         }
 
         previousApp = currentExternalFrontmostApplication()
-        focusedElementBeforePicker = captureFocusedElement()
+        focusedElementBeforePicker = AXHelpers.captureFocusedElement()
         
-        // Log picker open details
-        InsertionLogger.log("PICKER-OPEN", "Picker opened. previousApp=\(previousApp?.bundleIdentifier ?? "nil"), focusedElement=\(describeAXElement(focusedElementBeforePicker))")
-
         isClosing = false
         viewModel.prepareForPresentation()
 
@@ -70,7 +67,7 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         }
 
         let panel = PickerPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 460, height: 520),
+            contentRect: NSRect(x: 0, y: 0, width: AppConstants.defaultPickerWidth, height: AppConstants.defaultPickerHeight),
             styleMask: [.titled, .fullSizeContentView],
             backing: .buffered,
             defer: false
@@ -173,9 +170,6 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
             guard let self else {
                 return
             }
-
-            // Log insertion result
-            InsertionLogger.log("INSERT-COMPLETE", "Insertion completed. emoji=\(result.emoji.emoji), success=\(success), beep=\(!success)")
             
             if success {
                 EmojiUsageTracker.shared.incrementUsage(for: result.emoji.emoji)
@@ -208,42 +202,6 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         }
 
         isClosing = false
-    }
-
-    private func captureFocusedElement() -> AXUIElement? {
-        let systemWide = AXUIElementCreateSystemWide()
-        var elementRef: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(
-            systemWide,
-            kAXFocusedUIElementAttribute as CFString,
-            &elementRef
-        ) == .success, let elementRef else {
-            return nil
-        }
-        return unsafeBitCast(elementRef, to: AXUIElement.self)
-    }
-    
-    private func describeAXElement(_ element: AXUIElement?) -> String {
-        guard let element = element else {
-            return "nil"
-        }
-        
-        var role: CFTypeRef?
-        var subrole: CFTypeRef?
-        var identifier: CFTypeRef?
-        var title: CFTypeRef?
-        
-        AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role)
-        AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &subrole)
-        AXUIElementCopyAttributeValue(element, kAXIdentifierAttribute as CFString, &identifier)
-        AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &title)
-        
-        let roleStr = (role as? String) ?? "nil"
-        let subroleStr = (subrole as? String) ?? "nil"
-        let identifierStr = (identifier as? String) ?? "nil"
-        let titleStr = (title as? String) ?? "nil"
-        
-        return "\(roleStr):\(subroleStr):\(identifierStr):\(titleStr)"
     }
 
     private func currentExternalFrontmostApplication() -> NSRunningApplication? {

@@ -12,7 +12,7 @@ struct CustomEmojiBadge: View {
             .frame(width: size, height: size)
             .background(
                 RoundedRectangle(cornerRadius: size * 0.22)
-                    .fill(Color.orange.opacity(0.15))
+                    .fill(Color.orange.opacity(0.12))
             )
     }
 }

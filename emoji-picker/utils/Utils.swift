@@ -57,20 +57,6 @@ func writeStringToPasteboard(_ text: String, pasteboard: NSPasteboard = .general
     pasteboard.setString(text, forType: .string)
 }
 
-func extractString(from value: CFTypeRef?) -> String? {
-    guard let value else { return nil }
-
-    if let str = value as? String {
-        return str
-    }
-
-    if let attributedStr = value as? NSAttributedString {
-        return attributedStr.string
-    }
-
-    return nil
-}
-
 enum TextReplacementResult {
     case success(updatedText: String, newCursorLocation: Int)
     case failure
