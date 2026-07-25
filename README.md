@@ -1,69 +1,66 @@
 # Emoji Picker
 
-A small macOS menu-bar app that lets you press `§` from any app, search for an emoji, and have it pasted straight into the field you were typing in.
+A small macOS menu-bar app. Press `§` from any app, search for an emoji, and it's pasted straight into the field you were typing in. Supports custom Slack-style shortcuts (`:super_smile:`), usage statistics, and launch-at-login.
+
+![macOS 26+](https://img.shields.io/badge/macOS-26%2B-blue)
 
 ## Install
 
 1. Download `emoji-picker.zip` from the [Releases](../../releases) page.
-2. Unzip it and drag `emoji-picker.app` into `/Applications`.
-3. The first launch is blocked by Gatekeeper because the app is not notarized (see [Why the warning?](#why-the-warning) below). Use **one** of these to allow it:
-
-   **Option A - System Settings (recommended).**
-   - Double-click the app. macOS shows "Apple cannot verify that this app is free of malware" - click **Done**.
-   - Open **System Settings → Privacy & Security**, scroll down, find the *"emoji-picker was blocked..."* row, and click **Open Anyway**.
-   - Authenticate, then double-click the app again and choose **Open** in the second prompt.
-
-   **Option B - Terminal one-liner.** Removes the quarantine flag in one go:
-
-   ```bash
-   xattr -dr com.apple.quarantine /Applications/emoji-picker.app
-   ```
-
-4. Open the app from the menu-bar icon and grant the two permissions it asks for:
-   - **Input Monitoring** - so the app can see the global `§` keypress.
-   - **Accessibility** - so the app can paste the emoji into the focused field.
-
-   Both are requested from the popover with a "Grant..." button.
+2. Unzip and drag `emoji-picker.app` into `/Applications`.
+3. The first launch is blocked by Gatekeeper because the app isn't notarized (no paid Apple Developer account — see [Why the warning?](#why-the-warning)). Use **one** of:
+   - **System Settings** — double-click the app, click **Done** on the warning, then go to **Privacy & Security → Open Anyway**.
+   - **Terminal** — `xattr -dr com.apple.quarantine /Applications/emoji-picker.app`
+4. Open the app and grant the two permissions it asks for (via the menu-bar icon):
+   - **Input Monitoring** — to see the global `§` keypress.
+   - **Accessibility** — to paste the emoji into the focused field.
 
 ## Usage
 
-- Press `§` from anywhere. A floating picker appears, focused on the search field.
-- Type to filter, use `↑` / `↓` to move the selection, `Enter` to insert, `Esc` to cancel.
-- Click the menu-bar icon to see permission status, toggle launch-at-login, view usage statistics, or quit.
+- Press `§` from anywhere to open the picker.
+- Type to filter, `↑` / `↓` to move, `Enter` to insert, `Esc` to cancel.
+- Click the menu-bar icon to manage custom emoji, view statistics, toggle launch-at-login, or quit.
 
 ## Why the warning?
 
-The app is built without a paid Apple Developer Program membership ($99 / yr), so it can't be signed with a `Developer ID Application` certificate or notarized. macOS therefore treats it as coming from an "unidentified developer" and blocks the first launch. The bypass above only needs to be done once per machine. The app is **ad-hoc signed** (the binary itself is signed with a placeholder identity, which is what Apple silicon requires), it just isn't signed by a developer Apple has verified.
+The app is built without a paid Apple Developer Program membership, so it can't be notarized. It **is** ad-hoc signed (the minimum macOS requires to load the executable), just not signed by a developer Apple has verified. The bypass in step 3 only needs to be done once per machine.
 
-## Building from source
+If you ever enroll in the Apple Developer Program, the upgrade path is: sign with `Developer ID Application`, submit to `notarytool`, then `stapler staple`.
 
-Requires Xcode (the project targets macOS 26.0).
+## Development
+
+Requires Xcode 16+ targeting macOS 26.0.
 
 ```bash
-git clone https://github.com/<you>/emoji-picker.git
+git clone https://github.com/TrueJacobG/emoji-picker.git
 cd emoji-picker
 open emoji-picker.xcodeproj
 ```
 
-Then **Product → Run** in Xcode, or:
+Run with **Product → Run**, or from the terminal:
 
 ```bash
-xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker test
+# Debug build (ad-hoc signed, no developer account needed)
+xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker \
+  -configuration Debug \
+  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  build
+
+# Run unit tests (no accessibility/Input Monitoring prompts)
+xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker \
+  -configuration Debug \
+  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  test
 ```
 
-## Cutting a release
+> **Note:** The test scheme runs only unit tests (`emoji-pickerTests`). UI tests are excluded because they require a signed runner and trigger system permission prompts.
 
-This is what produces the `emoji-picker.zip` that goes on the Releases page.
+### Cutting a release
 
 ```bash
-xcodebuild \
-  -project emoji-picker.xcodeproj \
-  -scheme emoji-picker \
-  -configuration Release \
-  -derivedDataPath build \
-  CODE_SIGN_IDENTITY="-" \
-  CODE_SIGNING_REQUIRED=NO \
-  CODE_SIGNING_ALLOWED=NO \
+xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker \
+  -configuration Release -derivedDataPath build \
+  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   clean build
 
 ditto -c -k --sequesterRsrc --keepParent \
@@ -71,17 +68,17 @@ ditto -c -k --sequesterRsrc --keepParent \
   emoji-picker.zip
 ```
 
-Notes:
+Upload `emoji-picker.zip` as an asset on a new [GitHub Release](../../releases/new).
 
-- `CODE_SIGN_IDENTITY="-"` ad-hoc signs the binary. This is the minimum macOS (especially Apple silicon) needs to load the executable; it does **not** make Gatekeeper trust the app.
-- `ditto -c -k --sequesterRsrc --keepParent` is the right way to zip a `.app` bundle. Avoid Finder's "Compress" or `zip -r` - both have a history of breaking symlinks / metadata in app bundles.
-- Upload `emoji-picker.zip` as an asset on a new [GitHub Release](../../releases/new). That's all the hosting you need.
+## Contributing
 
-If you ever do enroll in the Apple Developer Program, the upgrade path is:
+Contributions are welcome! Please read the [Code of Conduct](CODE_OF_CONDUCT.md) first.
 
-1. Switch the build to use your `Developer ID Application` certificate.
-2. Re-sign with `--options runtime` to keep the existing Hardened Runtime setting.
-3. Submit the resulting zip to `notarytool` for notarization.
-4. `xcrun stapler staple emoji-picker.app` and re-zip.
+1. Fork the repo and create a feature branch.
+2. Make your changes. Add or update tests where reasonable.
+3. Ensure `xcodebuild ... test` passes (see above).
+4. Open a pull request describing what and why.
 
-That removes the Gatekeeper warning entirely.
+## License
+
+This project is open source. See the repository for details.
