@@ -19,7 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let statisticsController = StatisticsWindowController()
     private let customEmojiController = CustomEmojiWindowController()
 
-    private lazy var pickerCoordinator = PickerCoordinator(
+    private lazy var pickerCoordinator: PickerCoordinator = PickerCoordinator(
         searchService: EmojiSearchService(
             emojiProvider: { [customEmojiStore] in customEmojiStore.allEmojis },
             isCustomProvider: { [customEmojiStore] in customEmojiStore.isCustom($0) }

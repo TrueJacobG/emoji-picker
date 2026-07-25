@@ -299,4 +299,205 @@ struct emoji_pickerTests {
         #expect(store.customEmojis.isEmpty)
         #expect(!store.isCustom(":super_smile:"))
     }
+
+    @Test func extractStringReturnsNilForNil() {
+        #expect(extractString(from: nil) == nil)
+    }
+
+    @Test func extractStringReturnsStringDirectly() {
+        let value: CFTypeRef = "hello" as CFTypeRef
+        #expect(extractString(from: value) == "hello")
+    }
+
+    @Test func extractStringExtractsFromNSAttributedString() {
+        let attrStr = NSAttributedString(string: "from attributed")
+        let value: CFTypeRef = attrStr
+        #expect(extractString(from: value) == "from attributed")
+    }
+
+    @Test func extractNSAttributedStringWithFormatting() {
+        let attrStr = NSMutableAttributedString(string: "bold text")
+        attrStr.addAttribute(.font, value: NSFont.boldSystemFont(ofSize: 12), range: NSRange(location: 0, length: 4))
+        let value: CFTypeRef = attrStr
+        #expect(extractString(from: value) == "bold text")
+    }
+
+    @Test func replaceTextAtCursorInsertsEmoji() {
+        let result = replaceTextAtSelection(
+            currentText: "hello world",
+            selectionLocation: 5,
+            selectionLength: 0,
+            replacement: "😀"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "hello😀 world")
+        #expect(cursor == 7)
+    }
+
+    @Test func replaceTextWithSelectionReplacesRange() {
+        let result = replaceTextAtSelection(
+            currentText: "hello world",
+            selectionLocation: 0,
+            selectionLength: 5,
+            replacement: "🔥"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "🔥 world")
+        #expect(cursor == ("🔥" as NSString).length)
+    }
+
+    @Test func replaceTextSelectionAtEndAppends() {
+        let result = replaceTextAtSelection(
+            currentText: "hello",
+            selectionLocation: 5,
+            selectionLength: 0,
+            replacement: "👍"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "hello👍")
+        #expect(cursor == ("hello" as NSString).length + ("👍" as NSString).length)
+    }
+
+    @Test func replaceTextInvalidSelectionClampsToEnd() {
+        let result = replaceTextAtSelection(
+            currentText: "hi",
+            selectionLocation: Int.max,
+            selectionLength: 0,
+            replacement: "❤️"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "hi❤️")
+        #expect(cursor == 4)
+    }
+
+    @Test func replaceTextSelectionOutOfRangeClampsToEnd() {
+        let result = replaceTextAtSelection(
+            currentText: "ab",
+            selectionLocation: 1,
+            selectionLength: 5,
+            replacement: "✨"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "ab✨")
+        #expect(cursor == 3)
+    }
+
+    @Test func replaceTextNSNotFoundLocationAppends() {
+        let result = replaceTextAtSelection(
+            currentText: "test",
+            selectionLocation: NSNotFound,
+            selectionLength: 0,
+            replacement: "🎉"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "test🎉")
+        #expect(cursor == ("test🎉" as NSString).length)
+    }
+
+    @Test func replaceTextEmptyCurrentTextInsertsEmoji() {
+        let result = replaceTextAtSelection(
+            currentText: "",
+            selectionLocation: 0,
+            selectionLength: 0,
+            replacement: "😀"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "😀")
+        #expect(cursor == ("😀" as NSString).length)
+    }
+
+    @Test func replaceTextMultiByteEmojiCharacters() {
+        let result = replaceTextAtSelection(
+            currentText: "abc",
+            selectionLocation: 0,
+            selectionLength: 0,
+            replacement: "🇵🇱"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "🇵🇱abc")
+        #expect(cursor == ("🇵🇱" as NSString).length)
+    }
+
+    @Test func replaceTextReplaceAll() {
+        let result = replaceTextAtSelection(
+            currentText: "hello",
+            selectionLocation: 0,
+            selectionLength: 5,
+            replacement: "👋"
+        )
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "👋")
+        #expect(cursor == ("👋" as NSString).length)
+    }
+
+    @Test func appendTextToEmptyString() {
+        let result = appendText(currentText: "", text: "😀")
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "😀")
+        #expect(cursor == ("😀" as NSString).length)
+    }
+
+    @Test func appendTextToExistingString() {
+        let result = appendText(currentText: "hello", text: "🔥")
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "hello🔥")
+        #expect(cursor == ("hello🔥" as NSString).length)
+    }
+
+    @Test func appendTextMultipleEmojis() {
+        let result = appendText(currentText: "😀", text: "🔥👍")
+        guard case .success(let updated, let cursor) = result else {
+            Issue.record("expected success"); return
+        }
+        #expect(updated == "😀🔥👍")
+        #expect(cursor == ("😀🔥👍" as NSString).length)
+    }
+
+    @Test func replaceThenReplaceChain() {
+        let first = replaceTextAtSelection(
+            currentText: "hello world",
+            selectionLocation: 5,
+            selectionLength: 0,
+            replacement: "😀"
+        )
+        guard case .success(let text1, let cursor1) = first else {
+            Issue.record("expected success"); return
+        }
+        #expect(text1 == "hello😀 world")
+        #expect(cursor1 == ("hello😀" as NSString).length)
+
+        let second = replaceTextAtSelection(
+            currentText: text1,
+            selectionLocation: 0,
+            selectionLength: 3,
+            replacement: "👋"
+        )
+        guard case .success(let text2, let cursor2) = second else {
+            Issue.record("expected success"); return
+        }
+        #expect(text2 == "👋lo😀 world")
+        #expect(cursor2 == ("👋" as NSString).length)
+    }
 }

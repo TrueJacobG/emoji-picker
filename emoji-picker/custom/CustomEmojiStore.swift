@@ -39,11 +39,11 @@ final class CustomEmojiStore: ObservableObject {
     }
 
     init(
-        bundledEmojis: [Emoji] = EmojiProvider.loadEmojis(from: "emoji2"),
+        bundledEmojis: [Emoji]? = nil,
         userDefaults: UserDefaults = .standard,
         storageKey: String = "customEmojis"
     ) {
-        self.bundledEmojis = bundledEmojis
+        self.bundledEmojis = bundledEmojis ?? loadEmojis(from: "emoji2")
         self.userDefaults = userDefaults
         self.storageKey = storageKey
         load()

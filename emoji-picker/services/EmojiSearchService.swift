@@ -13,6 +13,7 @@ struct EmojiSearchResult: Identifiable, Equatable {
     }
 }
 
+@MainActor
 final class EmojiSearchService {
     private let emojiProvider: () -> [Emoji]
     private let usageCountProvider: (String) -> Int
@@ -25,15 +26,15 @@ final class EmojiSearchService {
     ]
 
     init(
-        emojiProvider: @escaping () -> [Emoji] = { EmojiProvider.loadEmojis(from: "emoji2") },
-        usageCountProvider: @escaping (String) -> Int = { EmojiUsageTracker.shared.getUsageCount(for: $0) },
-        mostUsedProvider: @escaping (Int?) -> [(emoji: String, count: Int)] = { EmojiUsageTracker.shared.getMostUsedEmojis(limit: $0) },
-        isCustomProvider: @escaping (String) -> Bool = { _ in false }
+        emojiProvider: (() -> [Emoji])? = nil,
+        usageCountProvider: ((String) -> Int)? = nil,
+        mostUsedProvider: ((Int?) -> [(emoji: String, count: Int)])? = nil,
+        isCustomProvider: ((String) -> Bool)? = nil
     ) {
-        self.emojiProvider = emojiProvider
-        self.usageCountProvider = usageCountProvider
-        self.mostUsedProvider = mostUsedProvider
-        self.isCustomProvider = isCustomProvider
+        self.emojiProvider = emojiProvider ?? { loadEmojis(from: "emoji2") }
+        self.usageCountProvider = usageCountProvider ?? { EmojiUsageTracker.shared.getUsageCount(for: $0) }
+        self.mostUsedProvider = mostUsedProvider ?? { EmojiUsageTracker.shared.getMostUsedEmojis(limit: $0) }
+        self.isCustomProvider = isCustomProvider ?? { _ in false }
     }
 
     func results(for query: String, limit: Int = 40) -> [EmojiSearchResult] {

@@ -1,5 +1,6 @@
 import AppKit
 import SwiftUI
+import ApplicationServices
 
 @MainActor
 final class PickerCoordinator: NSObject, NSWindowDelegate {
@@ -11,6 +12,7 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
     private var panel: PickerPanel?
     private var keyMonitor: Any?
     private var previousApp: NSRunningApplication?
+    private var focusedElementBeforePicker: AXUIElement?
     private var isClosing = false
     private var isInserting = false
 
@@ -47,6 +49,11 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         }
 
         previousApp = currentExternalFrontmostApplication()
+        focusedElementBeforePicker = captureFocusedElement()
+        
+        // Log picker open details
+        InsertionLogger.log("PICKER-OPEN", "Picker opened. previousApp=\(previousApp?.bundleIdentifier ?? "nil"), focusedElement=\(describeAXElement(focusedElementBeforePicker))")
+
         isClosing = false
         viewModel.prepareForPresentation()
 
@@ -162,11 +169,14 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         isInserting = true
         closePicker(restorePreviousApp: false)
 
-        insertionService.insert(result.emoji.emoji, into: previousApp) { [weak self] success in
+        insertionService.insert(result.emoji.emoji, into: previousApp, refocusElement: focusedElementBeforePicker) { [weak self] success in
             guard let self else {
                 return
             }
 
+            // Log insertion result
+            InsertionLogger.log("INSERT-COMPLETE", "Insertion completed. emoji=\(result.emoji.emoji), success=\(success), beep=\(!success)")
+            
             if success {
                 EmojiUsageTracker.shared.incrementUsage(for: result.emoji.emoji)
             } else {
@@ -175,6 +185,7 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
 
             self.isInserting = false
             self.previousApp = nil
+            self.focusedElementBeforePicker = nil
         }
     }
 
@@ -188,19 +199,51 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         removeKeyMonitor()
 
         if restorePreviousApp {
-            restorePreviousApplication()
+            guard let app = previousApp, app.bundleIdentifier != Bundle.main.bundleIdentifier else {
+                return
+            }
+
+            app.activate(options: [.activateAllWindows])
             previousApp = nil
         }
 
         isClosing = false
     }
 
-    private func restorePreviousApplication() {
-        guard let previousApp, previousApp.bundleIdentifier != Bundle.main.bundleIdentifier else {
-            return
+    private func captureFocusedElement() -> AXUIElement? {
+        let systemWide = AXUIElementCreateSystemWide()
+        var elementRef: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(
+            systemWide,
+            kAXFocusedUIElementAttribute as CFString,
+            &elementRef
+        ) == .success, let elementRef else {
+            return nil
         }
-
-        previousApp.activate(options: [.activateAllWindows])
+        return unsafeBitCast(elementRef, to: AXUIElement.self)
+    }
+    
+    private func describeAXElement(_ element: AXUIElement?) -> String {
+        guard let element = element else {
+            return "nil"
+        }
+        
+        var role: CFTypeRef?
+        var subrole: CFTypeRef?
+        var identifier: CFTypeRef?
+        var title: CFTypeRef?
+        
+        AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role)
+        AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &subrole)
+        AXUIElementCopyAttributeValue(element, kAXIdentifierAttribute as CFString, &identifier)
+        AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &title)
+        
+        let roleStr = (role as? String) ?? "nil"
+        let subroleStr = (subrole as? String) ?? "nil"
+        let identifierStr = (identifier as? String) ?? "nil"
+        let titleStr = (title as? String) ?? "nil"
+        
+        return "\(roleStr):\(subroleStr):\(identifierStr):\(titleStr)"
     }
 
     private func currentExternalFrontmostApplication() -> NSRunningApplication? {
