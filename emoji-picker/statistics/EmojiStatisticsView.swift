@@ -5,32 +5,13 @@ struct EmojiStatisticsView: View {
 
     @State private var searchText = ""
     @State private var sortMode: StatisticsSortMode = .default
+    @State private var displayedEmojis: [Emoji] = []
 
     enum Field: Hashable {
         case search
     }
 
     @FocusState private var focusedField: Field?
-
-    private var displayedEmojis: [Emoji] {
-        let filtered: [Emoji]
-        if searchText.isEmpty {
-            filtered = customEmojiStore.allEmojis
-        } else {
-            filtered = customEmojiStore.allEmojis.filter { emoji in
-                emoji.name.contains { nameString in
-                    nameString.localizedCaseInsensitiveContains(searchText)
-                }
-            }
-        }
-
-        return EmojiStatisticsSorter.sorted(
-            filtered,
-            mode: sortMode,
-            bundledEmojis: customEmojiStore.bundledEmojis,
-            usageCount: { EmojiUsageTracker.shared.getUsageCount(for: $0) }
-        )
-    }
 
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 60))
@@ -56,7 +37,7 @@ struct EmojiStatisticsView: View {
 
                 TextField("Search emoji by name", text: $searchText)
                     .focused($focusedField, equals: .search)
-                    .textFieldStyle(PlainTextFieldStyle())
+                    .textFieldStyle(.plain)
                     .font(.title3)
                     .padding(.vertical, 8)
 
@@ -67,7 +48,7 @@ struct EmojiStatisticsView: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(.secondary)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.plain)
                     .padding(.trailing, 8)
                 }
             }
@@ -90,11 +71,43 @@ struct EmojiStatisticsView: View {
         }
         .onAppear {
             searchText = ""
+            recomputeDisplayedEmojis()
 
             DispatchQueue.main.async {
                 self.focusedField = .search
             }
         }
+        .onChange(of: searchText) { _, _ in
+            recomputeDisplayedEmojis()
+        }
+        .onChange(of: sortMode) { _, _ in
+            recomputeDisplayedEmojis()
+        }
+        .onChange(of: customEmojiStore.customEmojis) { _, _ in
+            recomputeDisplayedEmojis()
+        }
+    }
+
+    private func recomputeDisplayedEmojis() {
+        let allEmojis = customEmojiStore.allEmojis
+
+        let filtered: [Emoji]
+        if searchText.isEmpty {
+            filtered = allEmojis
+        } else {
+            filtered = allEmojis.filter { emoji in
+                emoji.name.contains { nameString in
+                    nameString.localizedCaseInsensitiveContains(searchText)
+                }
+            }
+        }
+
+        displayedEmojis = EmojiStatisticsSorter.sorted(
+            filtered,
+            mode: sortMode,
+            bundledEmojis: customEmojiStore.bundledEmojis,
+            usageCount: { EmojiUsageTracker.shared.getUsageCount(for: $0) }
+        )
     }
 
     @ViewBuilder
@@ -108,6 +121,7 @@ struct EmojiStatisticsView: View {
         }
         .controlSize(.small)
         .help(label)
+        .accessibilityLabel(label)
 
         if sortMode == mode {
             button.buttonStyle(.borderedProminent)

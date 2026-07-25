@@ -1,1 +1,30 @@
+# Build outputs
 build/
+.build/
+
+# Xcode
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Coverage / profiling
+default.profraw
+*.profraw
+
+# Release artifacts (built locally, distributed via GitHub Releases)
+emoji-picker.zip
+emoji-picker.app/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo

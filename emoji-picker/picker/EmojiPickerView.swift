@@ -49,7 +49,7 @@ struct EmojiPickerView: View {
                 }
             }
         }
-        .frame(width: 460, height: 520)
+        .frame(width: AppConstants.defaultPickerWidth, height: AppConstants.defaultPickerHeight)
         .background(
             LinearGradient(
                 colors: [

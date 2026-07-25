@@ -1,11 +1,25 @@
 import Foundation
 import ServiceManagement
 
+enum LaunchAtLoginOutcome: Equatable {
+    case success
+    case failure(message: String)
+
+    var statusMessage: String {
+        switch self {
+        case .success:
+            return ""
+        case .failure(let message):
+            return message
+        }
+    }
+}
+
 @MainActor
 final class LaunchAtLoginManager {
-    func apply(desiredEnabled: Bool) -> String {
+    func apply(desiredEnabled: Bool) -> LaunchAtLoginOutcome {
         guard #available(macOS 13.0, *) else {
-            return "Launch at login requires macOS 13 or newer."
+            return .failure(message: "Launch at login requires macOS 13 or newer.")
         }
 
         let service = SMAppService.mainApp
@@ -19,10 +33,10 @@ final class LaunchAtLoginManager {
                 try service.unregister()
             }
         } catch {
-            return "Launch at login update failed: \(error.localizedDescription)"
+            return .failure(message: "Launch at login update failed: \(error.localizedDescription)")
         }
 
-        return statusMessage(desiredEnabled: desiredEnabled)
+        return .success
     }
 
     func statusMessage(desiredEnabled: Bool) -> String {

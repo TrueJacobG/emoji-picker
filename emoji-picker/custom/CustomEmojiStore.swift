@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import OSLog
 
 enum CustomEmojiStoreError: LocalizedError {
     case emptyName
@@ -24,18 +25,34 @@ final class CustomEmojiStore: ObservableObject {
 
     @Published private(set) var customEmojis: [CustomEmoji] = []
 
+    private static let logger = Logger(subsystem: "com.github.truejacobg.emoji-picker", category: "customEmojiStore")
+
     private let userDefaults: UserDefaults
     private let storageKey: String
+    private let backupKey: String
     let bundledEmojis: [Emoji]
 
+    private var cachedAllEmojis: [Emoji]?
+    private var cachedCustomPasteTexts: Set<String>?
+
     var customPasteTexts: Set<String> {
-        Set(customEmojis.map(\.pasteText))
+        if let cached = cachedCustomPasteTexts {
+            return cached
+        }
+        let value = Set(customEmojis.map(\.pasteText))
+        cachedCustomPasteTexts = value
+        return value
     }
 
     var allEmojis: [Emoji] {
-        bundledEmojis + customEmojis.map { custom in
+        if let cached = cachedAllEmojis {
+            return cached
+        }
+        let value = bundledEmojis + customEmojis.map { custom in
             Emoji(emoji: custom.pasteText, name: [custom.name, custom.pasteText])
         }
+        cachedAllEmojis = value
+        return value
     }
 
     init(
@@ -46,6 +63,7 @@ final class CustomEmojiStore: ObservableObject {
         self.bundledEmojis = bundledEmojis ?? loadEmojis(from: "emoji2")
         self.userDefaults = userDefaults
         self.storageKey = storageKey
+        self.backupKey = "\(storageKey).corruptBackup"
         load()
     }
 
@@ -115,6 +133,11 @@ final class CustomEmojiStore: ObservableObject {
         }
     }
 
+    private func invalidateCaches() {
+        cachedAllEmojis = nil
+        cachedCustomPasteTexts = nil
+    }
+
     private func load() {
         guard let data = userDefaults.data(forKey: storageKey) else {
             customEmojis = []
@@ -124,15 +147,21 @@ final class CustomEmojiStore: ObservableObject {
         do {
             customEmojis = try JSONDecoder().decode([CustomEmoji].self, from: data)
         } catch {
+            // Preserve the corrupt blob so the user can recover it, then start clean.
+            Self.logger.error("Failed to decode custom emojis, backing up corrupt data: \(error.localizedDescription, privacy: .public)")
+            userDefaults.set(data, forKey: backupKey)
             customEmojis = []
         }
     }
 
     private func save() {
-        guard let data = try? JSONEncoder().encode(customEmojis) else {
-            return
-        }
+        invalidateCaches()
 
-        userDefaults.set(data, forKey: storageKey)
+        do {
+            let data = try JSONEncoder().encode(customEmojis)
+            userDefaults.set(data, forKey: storageKey)
+        } catch {
+            Self.logger.error("Failed to encode custom emojis: \(error.localizedDescription, privacy: .public)")
+        }
     }
 }

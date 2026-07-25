@@ -2,8 +2,14 @@ import SwiftUI
 
 struct CustomEmojiBadge: View {
     let letter: String
-    var size: CGFloat = 40
-    var fontSize: CGFloat = 20
+    let size: CGFloat
+    let fontSize: CGFloat
+
+    init(letter: String, size: CGFloat = 40, fontSize: CGFloat = 20) {
+        self.letter = letter
+        self.size = size
+        self.fontSize = fontSize
+    }
 
     var body: some View {
         Text(letter)

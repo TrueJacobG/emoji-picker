@@ -51,6 +51,19 @@ struct EmojiResultRowView: View {
             )
         }
         .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        var parts: [String] = [result.primaryName]
+        if result.isCustom {
+            parts.append("custom")
+        }
+        if result.usageCount > 0 {
+            parts.append("used \(result.usageCount) time\(result.usageCount == 1 ? "" : "s")")
+        }
+        return parts.joined(separator: ", ")
     }
 
     private var rowBackground: Color {

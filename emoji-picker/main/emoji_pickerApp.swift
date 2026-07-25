@@ -16,8 +16,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let appState = AppState()
     private let customEmojiStore = CustomEmojiStore.shared
     private let popover = NSPopover()
-    private let statisticsController = StatisticsWindowController()
-    private let customEmojiController = CustomEmojiWindowController()
+    private lazy var statisticsController = HostingWindowController(
+        rootView: EmojiStatisticsView(customEmojiStore: customEmojiStore),
+        title: "Emoji Statistics",
+        size: NSSize(width: 600, height: 500)
+    )
+    private lazy var customEmojiController = HostingWindowController(
+        rootView: CustomEmojiView(store: customEmojiStore),
+        title: "Custom Emoji",
+        size: NSSize(width: 500, height: 450)
+    )
 
     private lazy var pickerCoordinator: PickerCoordinator = PickerCoordinator(
         searchService: EmojiSearchService(
@@ -78,7 +86,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func configurePopover() {
-        popover.contentSize = NSSize(width: 340, height: 380)
+        popover.contentSize = NSSize(width: AppConstants.popoverWidth, height: AppConstants.popoverHeight)
         popover.behavior = .transient
         popover.animates = true
         popover.contentViewController = NSHostingController(
@@ -88,10 +96,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     self?.requestPickerPresentation()
                 },
                 showStatistics: { [weak self] in
-                    self?.statisticsController.showWindow(customEmojiStore: self?.customEmojiStore ?? .shared)
+                    self?.statisticsController.showWindow()
                 },
                 showCustomEmoji: { [weak self] in
-                    self?.customEmojiController.showWindow(store: self?.customEmojiStore ?? .shared)
+                    self?.customEmojiController.showWindow()
                 }
             )
         )
@@ -116,67 +124,5 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.pickerCoordinator.showPicker()
         }
-    }
-}
-
-@MainActor
-final class StatisticsWindowController: NSObject, NSWindowDelegate {
-    private var window: NSWindow?
-
-    func showWindow(customEmojiStore: CustomEmojiStore) {
-        if let window {
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-            return
-        }
-
-        let hostingController = NSHostingController(
-            rootView: EmojiStatisticsView(customEmojiStore: customEmojiStore)
-        )
-        let window = NSWindow(contentViewController: hostingController)
-        window.title = "Emoji Statistics"
-        window.styleMask = [.titled, .closable, .resizable]
-        window.setContentSize(NSSize(width: 600, height: 500))
-        window.center()
-        window.delegate = self
-        window.makeKeyAndOrderFront(nil)
-
-        self.window = window
-        NSApp.activate(ignoringOtherApps: true)
-    }
-
-    func windowWillClose(_ notification: Notification) {
-        window = nil
-    }
-}
-
-@MainActor
-final class CustomEmojiWindowController: NSObject, NSWindowDelegate {
-    private var window: NSWindow?
-
-    func showWindow(store: CustomEmojiStore) {
-        if let window {
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-            return
-        }
-
-        let hostingController = NSHostingController(
-            rootView: CustomEmojiView(store: store)
-        )
-        let window = NSWindow(contentViewController: hostingController)
-        window.title = "Custom Emoji"
-        window.styleMask = [.titled, .closable, .resizable]
-        window.setContentSize(NSSize(width: 500, height: 450))
-        window.center()
-        window.delegate = self
-        window.makeKeyAndOrderFront(nil)
-
-        self.window = window
-        NSApp.activate(ignoringOtherApps: true)
-    }
-
-    func windowWillClose(_ notification: Notification) {
-        window = nil
     }
 }

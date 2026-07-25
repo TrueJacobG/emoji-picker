@@ -72,11 +72,17 @@ final class AppState: ObservableObject {
     func setLaunchAtLoginEnabled(_ enabled: Bool) {
         launchAtLoginEnabled = enabled
         settings.launchAtLoginEnabled = enabled
-        launchAtLoginStatusText = launchAtLoginManager.apply(desiredEnabled: enabled)
+        let outcome = launchAtLoginManager.apply(desiredEnabled: enabled)
+        launchAtLoginStatusText = outcome.statusMessage.isEmpty
+            ? launchAtLoginManager.statusMessage(desiredEnabled: enabled)
+            : outcome.statusMessage
     }
 
     func applyLaunchAtLoginPreference() {
-        launchAtLoginStatusText = launchAtLoginManager.apply(desiredEnabled: launchAtLoginEnabled)
+        let outcome = launchAtLoginManager.apply(desiredEnabled: launchAtLoginEnabled)
+        launchAtLoginStatusText = outcome.statusMessage.isEmpty
+            ? launchAtLoginManager.statusMessage(desiredEnabled: launchAtLoginEnabled)
+            : outcome.statusMessage
     }
 
     private func openSystemSettings(urlStrings: [String]) {

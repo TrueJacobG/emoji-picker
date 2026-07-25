@@ -8,6 +8,10 @@ struct EmojiCellWithStats: View {
     @State private var isHovering = false
     @State private var usageCount = 0
 
+    private var primaryName: String {
+        emoji.name.first ?? emoji.emoji
+    }
+
     var body: some View {
         ZStack {
             VStack(spacing: 2) {
@@ -18,7 +22,7 @@ struct EmojiCellWithStats: View {
                         .font(.system(size: 36))
                 }
 
-                Text(emoji.name[0])
+                Text(primaryName)
                     .font(.caption2)
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
@@ -46,6 +50,8 @@ struct EmojiCellWithStats: View {
                 self.isHovering = hovering
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(primaryName), \(usageCount) use\(usageCount == 1 ? "" : "s")\(isCustom ? ", custom" : "")")
         .onAppear {
             usageCount = EmojiUsageTracker.shared.getUsageCount(for: emoji.emoji)
         }

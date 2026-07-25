@@ -8,7 +8,11 @@ struct TopBarView: View {
     let showStatistics: () -> Void
     let showCustomEmoji: () -> Void
 
-    private let refreshTimer = Timer.publish(every: 2.0, on: .main, in: .common).autoconnect()
+    private let refreshTimer = Timer.publish(every: AppConstants.permissionPollInterval, on: .main, in: .common).autoconnect()
+
+    private var permissionsAreStable: Bool {
+        appState.hasAccessibility && appState.hasInputMonitoring && appState.hotkeyCaptureAvailable
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -89,11 +93,15 @@ struct TopBarView: View {
             .controlSize(.small)
         }
         .padding(20)
-        .frame(width: 340)
+        .frame(width: AppConstants.popoverWidth)
         .onAppear {
             appState.refreshAll()
         }
         .onReceive(refreshTimer) { _ in
+            // Stop polling once all permissions are granted — they won't change without a re-launch.
+            guard !permissionsAreStable else {
+                return
+            }
             appState.refreshAll()
         }
     }
@@ -110,6 +118,7 @@ private struct PermissionRow: View {
                 .fill(isEnabled ? Color.green : Color.orange)
                 .frame(width: 10, height: 10)
                 .padding(.top, 4)
+                .accessibilityLabel(isEnabled ? "\(title), granted" : "\(title), not granted")
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

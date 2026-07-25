@@ -2,7 +2,7 @@ import AppKit
 import CoreGraphics
 
 final class HotkeyService {
-    static let activationKeyCode = CGKeyCode(10)
+    static let activationKeyCode = AppConstants.activationKeyCode
 
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?

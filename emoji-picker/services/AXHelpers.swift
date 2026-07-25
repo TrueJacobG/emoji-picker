@@ -4,7 +4,7 @@ struct AXHelpers {
     static func createSystemWideElement() -> AXUIElement {
         AXUIElementCreateSystemWide()
     }
-    
+
     static func captureFocusedElement() -> AXUIElement? {
         let systemWide = createSystemWideElement()
         var elementRef: CFTypeRef?
@@ -15,24 +15,24 @@ struct AXHelpers {
         ) == .success, let elementRef else {
             return nil
         }
-        return unsafeBitCast(elementRef, to: AXUIElement.self)
+        return castToAXUIElement(elementRef)
     }
-    
-    static func getFocusedElement(from systemWide: AXUIElement) -> CFTypeRef? {
+
+    static func getFocusedElement(from systemWide: AXUIElement) -> AXUIElement? {
         var elementRef: CFTypeRef?
         let result = AXUIElementCopyAttributeValue(
             systemWide,
             kAXFocusedUIElementAttribute as CFString,
             &elementRef
         )
-        
-        guard result == .success else {
+
+        guard result == .success, let elementRef else {
             return nil
         }
-        
-        return elementRef
+
+        return castToAXUIElement(elementRef)
     }
-    
+
     static func getAttributeValue(_ attribute: String, from element: AXUIElement) -> CFTypeRef? {
         var valueRef: CFTypeRef?
         let result = AXUIElementCopyAttributeValue(
@@ -40,14 +40,14 @@ struct AXHelpers {
             attribute as CFString,
             &valueRef
         )
-        
+
         guard result == .success else {
             return nil
         }
-        
+
         return valueRef
     }
-    
+
     static func verifyAttributeValue(_ attribute: String, from element: AXUIElement) -> (success: Bool, value: CFTypeRef?) {
         var valueRef: CFTypeRef?
         let result = AXUIElementCopyAttributeValue(
@@ -55,16 +55,16 @@ struct AXHelpers {
             attribute as CFString,
             &valueRef
         )
-        
+
         return (success: result == .success, value: valueRef)
     }
-    
+
     static func verifyValueWasSet(_ expectedValue: String, for element: AXUIElement) -> Bool {
         let verification = verifyAttributeValue(kAXValueAttribute, from: element)
         guard verification.success, let verifyValueRef = verification.value else {
             return false
         }
-        
+
         let verifyText: String?
         if let str = verifyValueRef as? String {
             verifyText = str
@@ -73,42 +73,14 @@ struct AXHelpers {
         } else {
             verifyText = nil
         }
-        
+
         guard let verifyText = verifyText else {
             return false
         }
-        
-        let matches = verifyText == expectedValue
-        return matches
+
+        return verifyText == expectedValue
     }
-    
-    static func convertToAXUIElement(_ ref: CFTypeRef) -> AXUIElement {
-        return unsafeBitCast(ref, to: AXUIElement.self)
-    }
-    
-    static func convertToAXValue(_ ref: CFTypeRef) -> AXValue {
-        return unsafeBitCast(ref, to: AXValue.self)
-    }
-    
-    static func getValueType(_ value: AXValue) -> AXValueType {
-        return AXValueGetType(value)
-    }
-    
-    static func getValue(_ value: AXValue, type: AXValueType, outValue: UnsafeMutableRawPointer) -> Bool {
-        return AXValueGetValue(value, type, outValue)
-    }
-    
-    static func getActionNames(for element: AXUIElement) -> [String]? {
-        var actionNamesRef: CFArray?
-        let result = AXUIElementCopyActionNames(element, &actionNamesRef)
-        
-        guard result == .success, let actionNamesRef = actionNamesRef else {
-            return nil
-        }
-        
-        return actionNamesRef as? [String]
-    }
-    
+
     static func getValue(from element: AXUIElement) -> CFTypeRef? {
         var valueRef: CFTypeRef?
         let valueError = AXUIElementCopyAttributeValue(
@@ -116,40 +88,51 @@ struct AXHelpers {
             kAXValueAttribute as CFString,
             &valueRef
         )
-        
+
         guard valueError == .success else {
             return nil
         }
-        
+
         return valueRef
     }
-    
+
     static func setValue(_ value: CFTypeRef, for element: AXUIElement) -> Bool {
         let setError = AXUIElementSetAttributeValue(
             element,
             kAXValueAttribute as CFString,
             value
         )
-        
+
         return setError == .success
     }
-    
+
     static func setFocused(_ element: AXUIElement) -> Bool {
         let setError = AXUIElementSetAttributeValue(
             element,
             kAXFocusedAttribute as CFString,
-            true as CFTypeRef
+            kCFBooleanTrue
         )
-        
+
         return setError == .success
     }
-    
+
     static func performAction(_ action: String, on element: AXUIElement) -> Bool {
         let result = AXUIElementPerformAction(element, action as CFString)
         return result == .success
     }
-    
-    static func getSelectedTextRange(from element: AXUIElement) -> CFTypeRef? {
+
+    static func getActionNames(for element: AXUIElement) -> [String]? {
+        var actionNamesRef: CFArray?
+        let result = AXUIElementCopyActionNames(element, &actionNamesRef)
+
+        guard result == .success, let actionNamesRef else {
+            return nil
+        }
+
+        return actionNamesRef as? [String]
+    }
+
+    static func getSelectedTextRange(from element: AXUIElement) -> AXValue? {
         var selectedRangeRef: CFTypeRef?
         let rangeError = AXUIElementCopyAttributeValue(
             element,
@@ -157,33 +140,32 @@ struct AXHelpers {
             &selectedRangeRef
         )
 
-        guard rangeError == .success else {
+        guard rangeError == .success, let selectedRangeRef else {
             return nil
         }
 
-        return selectedRangeRef
+        return castToAXValue(selectedRangeRef)
     }
-    
-    static func describeAXElement(_ element: AXUIElement?) -> String {
-        guard let element = element else {
-            return "nil"
+
+    static func getValueType(_ value: AXValue) -> AXValueType {
+        return AXValueGetType(value)
+    }
+
+    static func getValue(_ value: AXValue, type: AXValueType, outValue: UnsafeMutableRawPointer) -> Bool {
+        return AXValueGetValue(value, type, outValue)
+    }
+
+    private static func castToAXUIElement(_ ref: CFTypeRef) -> AXUIElement? {
+        guard CFGetTypeID(ref) == AXUIElementGetTypeID() else {
+            return nil
         }
-        
-        var role: CFTypeRef?
-        var subrole: CFTypeRef?
-        var identifier: CFTypeRef?
-        var title: CFTypeRef?
-        
-        role = getAttributeValue(kAXRoleAttribute, from: element)
-        subrole = getAttributeValue(kAXSubroleAttribute, from: element)
-        identifier = getAttributeValue(kAXIdentifierAttribute, from: element)
-        title = getAttributeValue(kAXTitleAttribute, from: element)
-        
-        let roleStr = (role as? String) ?? "nil"
-        let subroleStr = (subrole as? String) ?? "nil"
-        let identifierStr = (identifier as? String) ?? "nil"
-        let titleStr = (title as? String) ?? "nil"
-        
-        return "\(roleStr):\(subroleStr):\(identifierStr):\(titleStr)"
+        return unsafeBitCast(ref, to: AXUIElement.self)
+    }
+
+    private static func castToAXValue(_ ref: CFTypeRef) -> AXValue? {
+        guard CFGetTypeID(ref) == AXValueGetTypeID() else {
+            return nil
+        }
+        return unsafeBitCast(ref, to: AXValue.self)
     }
 }

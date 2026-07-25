@@ -1,20 +1,20 @@
 import Foundation
+import OSLog
+
+private let emojiProviderLogger = Logger(subsystem: "com.github.truejacobg.emoji-picker", category: "emojiProvider")
 
 @MainActor
 func loadEmojis(from filename: String) -> [Emoji] {
     guard let url = Bundle.main.url(forResource: filename, withExtension: "json") else {
-        fatalError("Could not find \(filename).json in the app bundle. Make sure it's added to the project and the 'Copy Bundle Resources' build phase.")
+        emojiProviderLogger.error("Could not find \(filename).json in the app bundle.")
+        return []
     }
-    
-    guard let data = try? Data(contentsOf: url) else {
-        fatalError("Could not load data from \(filename).json.")
-    }
-    
+
     do {
-        let decoder = JSONDecoder()
-        let emojis = try decoder.decode([Emoji].self, from: data)
-        return emojis
+        let data = try Data(contentsOf: url)
+        return try JSONDecoder().decode([Emoji].self, from: data)
     } catch {
-        fatalError("Could not decode \(filename).json: \(error)")
+        emojiProviderLogger.error("Could not load or decode \(filename).json: \(error.localizedDescription, privacy: .public)")
+        return []
     }
 }

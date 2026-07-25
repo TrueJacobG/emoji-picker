@@ -62,7 +62,7 @@ final class EmojiPickerViewModel: ObservableObject {
         results = searchService.results(for: searchText)
 
         if resetSelection {
-            selectedIndex = results.isEmpty ? 0 : 0
+            selectedIndex = 0
         } else if selectedIndex >= results.count {
             selectedIndex = max(0, results.count - 1)
         }

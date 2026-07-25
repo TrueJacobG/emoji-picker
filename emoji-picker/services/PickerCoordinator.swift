@@ -97,10 +97,7 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
     }
 
     private func position(_ panel: NSPanel) {
-        let mouseLocation = NSEvent.mouseLocation
-        let targetScreen = NSScreen.screens.first(where: { NSMouseInRect(mouseLocation, $0.frame, false) }) ?? NSScreen.main
-
-        guard let targetScreen else {
+        guard let targetScreen = NSScreen.main ?? NSScreen.screens.first else {
             panel.center()
             return
         }
@@ -141,16 +138,16 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
         }
 
         switch event.keyCode {
-        case 53:
+        case AppConstants.KeyCode.escape:
             closePicker(restorePreviousApp: true)
             return nil
-        case 36, 76:
+        case AppConstants.KeyCode.returnKey, AppConstants.KeyCode.keypadEnter:
             viewModel.insertSelected()
             return nil
-        case 125:
+        case AppConstants.KeyCode.arrowDown:
             viewModel.moveSelection(by: 1)
             return nil
-        case 126:
+        case AppConstants.KeyCode.arrowUp:
             viewModel.moveSelection(by: -1)
             return nil
         default:
@@ -217,7 +214,11 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
 
     private func activatePickerApp() {
         NSRunningApplication.current.activate(options: [.activateAllWindows])
-        NSApp.activate(ignoringOtherApps: true)
+        if #available(macOS 14.0, *) {
+            NSApp.activate()
+        } else {
+            NSApp.activate(ignoringOtherApps: true)
+        }
     }
 }
 
