@@ -23,7 +23,7 @@ A small macOS menu-bar app. Press `§` from any app, search for an emoji, and it
 
 ## Why the warning?
 
-The app is built without a paid Apple Developer Program membership, so it can't be notarized. It **is** ad-hoc signed (the minimum macOS requires to load the executable), just not signed by a developer Apple has verified. The bypass in step 3 only needs to be done once per machine.
+The app is built without a paid Apple Developer Program membership, so it can't be notarized. It **is** ad-hoc signed with Hardened Runtime (the minimum macOS requires to load the executable and track permissions), just not signed by a developer Apple has verified. The bypass in step 3 only needs to be done once per machine.
 
 If you ever enroll in the Apple Developer Program, the upgrade path is: sign with `Developer ID Application`, submit to `notarytool`, then `stapler staple`.
 
@@ -43,13 +43,15 @@ Run with **Product → Run**, or from the terminal:
 # Debug build (ad-hoc signed, no developer account needed)
 xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker \
   -configuration Debug \
-  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=YES \
+  DEVELOPMENT_TEAM="" \
   build
 
 # Run unit tests (no accessibility/Input Monitoring prompts)
 xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker \
   -configuration Debug \
-  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=YES \
+  DEVELOPMENT_TEAM="" \
   test
 ```
 
@@ -60,7 +62,8 @@ xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker \
 ```bash
 xcodebuild -project emoji-picker.xcodeproj -scheme emoji-picker \
   -configuration Release -derivedDataPath build \
-  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=YES \
+  DEVELOPMENT_TEAM="" \
   clean build
 
 ditto -c -k --sequesterRsrc --keepParent \

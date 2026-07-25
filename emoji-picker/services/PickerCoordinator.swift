@@ -214,11 +214,11 @@ final class PickerCoordinator: NSObject, NSWindowDelegate {
 
     private func activatePickerApp() {
         NSRunningApplication.current.activate(options: [.activateAllWindows])
-        if #available(macOS 14.0, *) {
-            NSApp.activate()
-        } else {
-            NSApp.activate(ignoringOtherApps: true)
-        }
+        // NSApp.activate(ignoringOtherApps:) is deprecated in macOS 14 but the
+        // replacement (NSApp.activate()) does not reliably bring a menu-bar-only
+        // app (LSUIElement) to the foreground. The deprecated API is the only
+        // way to force keyboard focus to the picker panel.
+        NSApp.activate(ignoringOtherApps: true)
     }
 }
 
